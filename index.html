@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./src/output.css" rel="stylesheet">
+    <title>سالن آرایشگاه سودا</title>
+</head>
+<body>
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[rgba(255,255,255,0.08)] backdrop-blur-xl shadow-sm transition-all duration-500" id="navbar">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            
+            <!-- لوگو -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-purple-500/30 transition-shadow duration-300">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                        <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-xl font-light text-white/90">سالن</span>
+                    <span class="text-xl font-bold text-purple-300">سودا</span>
+                </div>
+            </a>
+
+            <!-- منوی اصلی (دسکتاپ) -->
+            <nav class="hidden lg:flex items-center gap-10">
+                <a href="#" class="text-white/80 hover:text-white font-medium transition-all duration-300 relative group text-sm tracking-wide">
+                    خانه
+                    <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" class="text-white/80 hover:text-white font-medium transition-all duration-300 relative group text-sm tracking-wide">
+                    خدمات
+                    <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" class="text-white/80 hover:text-white font-medium transition-all duration-300 relative group text-sm tracking-wide">
+                    مقالات
+                    <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" class="text-white/80 hover:text-white font-medium transition-all duration-300 relative group text-sm tracking-wide">
+                    نمونه کارها
+                    <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" class="text-white/80 hover:text-white font-medium transition-all duration-300 relative group text-sm tracking-wide">
+                    تماس با ما
+                    <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <!-- دکمه رزرو (دسکتاپ) -->
+            <div class="hidden lg:block">
+                <button class="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white px-8 py-2.5 rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-purple-500/30 hover:scale-105 text-sm tracking-wide">
+                    رزرو نوبت
+                </button>
+            </div>
+
+            <!-- دکمه همبرگر (موبایل و تبلت) -->
+            <button class="lg:hidden text-white/80 hover:text-white transition-colors p-2 relative z-[60]" id="menuBtn">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="menuIcon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- پس‌زمینه تاری برای منوی موبایل (خارج از هدر) -->
+    <div class="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 z-[100]" id="overlay"></div>
+
+    <!-- منوی موبایل (اسلاید از راست) - خارج از هدر با z-index بالاتر -->
+    <div class="lg:hidden fixed top-0 right-0 w-full max-w-xs h-full bg-gradient-to-b from-gray-900 to-gray-800 shadow-2xl transform translate-x-full transition-transform duration-500 ease-in-out z-[200]" id="mobileMenu">
+        <!-- هدر منوی موبایل -->
+        <div class="flex justify-between items-center p-6 border-b border-white/10">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                        <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-white">سالن سودا</span>
+            </div>
+            <button class="text-white/60 hover:text-white transition-colors" id="closeMenuBtn">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- لینک‌های منوی موبایل -->
+        <nav class="p-6 space-y-6">
+            <a href="#" class="block text-white/80 hover:text-white text-lg font-medium transition-colors duration-300 hover:translate-x-2 transform">
+                🏠 خانه
+            </a>
+            <a href="#" class="block text-white/80 hover:text-white text-lg font-medium transition-colors duration-300 hover:translate-x-2 transform">
+                💆 خدمات
+            </a>
+            <a href="#" class="block text-white/80 hover:text-white text-lg font-medium transition-colors duration-300 hover:translate-x-2 transform">
+                📝 مقالات
+            </a>
+            <a href="#" class="block text-white/80 hover:text-white text-lg font-medium transition-colors duration-300 hover:translate-x-2 transform">
+                📸 نمونه کارها
+            </a>
+            <a href="#" class="block text-white/80 hover:text-white text-lg font-medium transition-colors duration-300 hover:translate-x-2 transform">
+                📞 تماس با ما
+            </a>
+        </nav>
+
+        <!-- دکمه رزرو در منوی موبایل -->
+        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-gray-900 to-transparent">
+            <button class="w-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg">
+                رزرو نوبت
+            </button>
+        </div>
+    </div>
+
+    <!-- بخش اصلی با تصویر پس‌زمینه -->
+    <section class="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed" 
+             style="background-image: url('./public/images/images.jpg');">
+        
+        <!-- لایه تاری گرادیانتی برای زیبایی بیشتر -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+        
+        <!-- محتوای اصلی روی تصویر -->
+        <div class="relative z-10 container mx-auto px-4 text-center text-white">
+            
+            <!-- نشان کوچک -->
+            <!-- <div class="inline-block bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-8 border border-white/20">
+                <span class="text-sm tracking-wider text-purple-300">✨ بهترین سالن زیبایی</span>
+            </div> -->
+            
+            <!-- عنوان اصلی -->
+            <div class="mb-8">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-light leading-tight">
+                    سالن آرایش
+                </h1>
+                <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-purple-300 via-purple-400 to-purple-500 text-transparent bg-clip-text">
+                    سودا
+                </h2>
+                <p class="text-xl md:text-2xl mt-6 text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                    تجربه‌ای لوکس از زیبایی، آرامش و اعتماد به نفس
+                </p>
+            </div>
+
+            <!-- دکمه‌های CTA -->
+            <div class="flex flex-col sm:flex-row gap-5 justify-center">
+                <button class="group bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-2xl hover:shadow-purple-500/30 hover:scale-105 flex items-center justify-center gap-2">
+                    <span>مشاهده خدمات</span>
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+                <button class="group bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 border-2 border-white/30 hover:border-white/60 flex items-center justify-center gap-2">
+                    <span>رزرو نوبت</span>
+                    <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- آمار کوچک -->
+            <div class="mt-16 flex flex-wrap justify-center gap-8 md:gap-16">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-white">۵۰۰+</div>
+                    <div class="text-sm text-gray-400 mt-1">مشتری راضی</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-white">۱۰+</div>
+                    <div class="text-sm text-gray-400 mt-1">سال تجربه</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-white">۴.۹</div>
+                    <div class="text-sm text-gray-400 mt-1">امتیاز مشتریان</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- اسکرول اندیکیتور -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+            <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- بخش خدمات -->
+    <section class="py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden" dir="rtl">
+        <div class="container mx-auto px-4">
+            
+            <!-- عنوان بخش -->
+            <div class="text-center mb-16">
+                <span class="inline-block bg-purple-100 text-purple-600 font-semibold text-sm tracking-wider px-4 py-2 rounded-full mb-4">
+                    ✨ خدمات ویژه
+                </span>
+                <h2 class="text-4xl md:text-5xl font-light text-gray-700">
+                    خدمات و سرویس‌های
+                </h2>
+                <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-transparent bg-clip-text">
+                    ما
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-purple-700 mx-auto mt-4 rounded-full"></div>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">
+                    ارائه بهترین خدمات با بالاترین کیفیت و استفاده از بروزترین متدهای روز دنیا
+                </p>
+            </div>
+    
+            <!-- اسلایدر -->
+            <div class="relative max-w-7xl mx-auto">
+                <!-- دکمه قبلی (در RTL به سمت راست اشاره میکند) -->
+                <button id="prevBtn" class="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-purple-600 text-purple-600 hover:text-white w-12 h-12 rounded-full shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center justify-center border-2 border-purple-100 hover:border-purple-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+    
+                <!-- کانتینر اسلایدها (اجبار به LTR برای محاسبات درست ریاضی جابه‌جایی) -->
+                <div class="overflow-hidden" dir="ltr">
+                    <div id="sliderContainer" class="flex transition-transform duration-500 ease-in-out">
+                        
+                        <!-- اسلاید ۱ - کارت اول -->
+                        <div class="flex-shrink-0 w-full md:w-1/2 p-2" dir="rtl">
+                            <div class="card group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-2 h-full">
+                                <div class="overflow-hidden">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/009/269/140/large_2x/beauty-portrait-of-female-face-with-natural-skin-wonderful-white-woman-stylish-girl-hipster-russian-photo.JPG" 
+                                         alt="خدمات ناخن کاری" 
+                                         class="w-full h-56 object-cover transition-transform duration-700 group-hover:scale-110">
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-10 h-10 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-purple-600 font-semibold text-xs">خدمات تخصصی</span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-purple-600 transition-colors">
+                                        ناخن کاری
+                                    </h3>
+                                    <p class="text-gray-600 leading-relaxed text-sm mb-4 line-clamp-3">
+                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-1 text-sm text-gray-400">
+                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            ۴.۹ (۱۲۸ نظر)
+                                        </div>
+                                        <button class="text-purple-600 hover:text-purple-700 font-medium text-sm transition-colors hover:-translate-x-1 transform inline-flex items-center gap-1">
+                                            مشاهده
+                                            <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- اسلاید ۱ - کارت دوم -->
+                        <div class="flex-shrink-0 w-full md:w-1/2 p-2" dir="rtl">
+                            <div class="card group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-2 h-full">
+                                <div class="overflow-hidden">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/009/269/140/large_2x/beauty-portrait-of-female-face-with-natural-skin-wonderful-white-woman-stylish-girl-hipster-russian-photo.JPG" 
+                                         alt="خدمات آرایش" 
+                                         class="w-full h-56 object-cover transition-transform duration-700 group-hover:scale-110">
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-10 h-10 bg-gradient-to-br from-pink-100 to-pink-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                            <svg class="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-pink-600 font-semibold text-xs">خدمات تخصصی</span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-pink-600 transition-colors">
+                                        آرایش و زیبایی
+                                    </h3>
+                                    <p class="text-gray-600 leading-relaxed text-sm mb-4 line-clamp-3">
+                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-1 text-sm text-gray-400">
+                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            ۴.۸ (۹۶ نظر)
+                                        </div>
+                                        <button class="text-pink-600 hover:text-pink-700 font-medium text-sm transition-colors hover:-translate-x-1 transform inline-flex items-center gap-1">
+                                            مشاهده
+                                            <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- اسلاید ۲ - کارت اول -->
+                        <div class="flex-shrink-0 w-full md:w-1/2 p-2" dir="rtl">
+                            <div class="card group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-2 h-full">
+                                <div class="overflow-hidden">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/009/269/140/large_2x/beauty-portrait-of-female-face-with-natural-skin-wonderful-white-woman-stylish-girl-hipster-russian-photo.JPG" 
+                                         alt="خدمات پوست" 
+                                         class="w-full h-56 object-cover transition-transform duration-700 group-hover:scale-110">
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-10 h-10 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-amber-600 font-semibold text-xs">خدمات تخصصی</span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-amber-600 transition-colors">
+                                        مراقبت از پوست
+                                    </h3>
+                                    <p class="text-gray-600 leading-relaxed text-sm mb-4 line-clamp-3">
+                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-1 text-sm text-gray-400">
+                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            ۴.۹ (۱۵۶ نظر)
+                                        </div>
+                                        <button class="text-amber-600 hover:text-amber-700 font-medium text-sm transition-colors hover:-translate-x-1 transform inline-flex items-center gap-1">
+                                            مشاهده
+                                            <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- اسلاید ۲ - کارت دوم -->
+                        <div class="flex-shrink-0 w-full md:w-1/2 p-2" dir="rtl">
+                            <div class="card group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-2 h-full">
+                                <div class="overflow-hidden">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/009/269/140/large_2x/beauty-portrait-of-female-face-with-natural-skin-wonderful-white-woman-stylish-girl-hipster-russian-photo.JPG" 
+                                         alt="خدمات مو" 
+                                         class="w-full h-56 object-cover transition-transform duration-700 group-hover:scale-110">
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-emerald-600 font-semibold text-xs">خدمات تخصصی</span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-emerald-600 transition-colors">
+                                        مراقبت از مو
+                                    </h3>
+                                    <p class="text-gray-600 leading-relaxed text-sm mb-4 line-clamp-3">
+                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-1 text-sm text-gray-400">
+                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            ۴.۷ (۸۴ نظر)
+                                        </div>
+                                        <button class="text-emerald-600 hover:text-emerald-700 font-medium text-sm transition-colors hover:-translate-x-1 transform inline-flex items-center gap-1">
+                                            مشاهده
+                                            <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+    
+                <!-- دکمه بعدی (در RTL به سمت چپ اشاره میکند) -->
+                <button id="nextBtn" class="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-purple-600 text-purple-600 hover:text-white w-12 h-12 rounded-full shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center justify-center border-2 border-purple-100 hover:border-purple-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+            </div>
+    
+            <!-- اندیکاتورهای اسلایدر -->
+            <div id="dotsContainer" class="flex justify-center gap-3 mt-8">
+                <!-- دات‌ها به صورت داینامیک یا استاتیک هندل می‌شوند -->
+                <button class="dot w-3 h-3 rounded-full bg-purple-600 transition-all duration-300" data-index="0"></button>
+                <button class="dot w-3 h-3 rounded-full bg-gray-300 hover:bg-purple-400 transition-all duration-300" data-index="1"></button>
+            </div>
+    
+            <!-- دکمه مشاهده همه خدمات -->
+            <div class="text-center mt-12">
+                <button class="group bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white px-12 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-purple-500/30 hover:scale-105 inline-flex items-center gap-3">
+                    <span>مشاهده همه خدمات</span>
+                    <svg class="w-6 h-6 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+                    </svg>
+                </button>
+            </div>
+    
+        </div>
+    </section>
+    <!-- اسکریپت منوی همبرگر -->
+    <script>
+
+
+const sliderContainer = document.getElementById('sliderContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dots = document.querySelectorAll('.dot');
+    
+    let currentIndex = 0;
+    let slidesPerView = window.innerWidth >= 768 ? 2 : 1;
+    
+    // محاسبه داینامیک تعداد کل صفحات بر اساس تعداد کل کارت‌ها
+    const totalCards = sliderContainer.children.length;
+    const maxIndex = Math.ceil(totalCards / slidesPerView) - 1;
+
+    function updateSlider() {
+        // چون کانتینر اصلی را ltr کردیم، محاسبات منفی کاملاً استاندارد و بدون باگ در همه‌جا کار می‌کند
+        const offset = -currentIndex * 100;
+        sliderContainer.style.transform = `translateX(${offset}%)`;
+        
+        // به‌روزرسانی وضعیت دات‌ها
+        dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+                dot.classList.remove('bg-gray-300');
+                dot.classList.add('bg-purple-600', 'w-8');
+            } else {
+                dot.classList.remove('bg-purple-600', 'w-8');
+                dot.classList.add('bg-gray-300');
+            }
+        });
+    }
+
+    function nextSlide() {
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+        } else {
+            currentIndex = 0; // بازگشت به اول
+        }
+        updateSlider();
+    }
+
+    function prevSlide() {
+        if (currentIndex > 0) {
+            currentIndex--;
+        } else {
+            currentIndex = maxIndex; // رفتن به آخر
+        }
+        updateSlider();
+    }
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            if(index <= maxIndex) {
+                currentIndex = index;
+                updateSlider();
+            }
+        });
+    });
+
+    // اسلاید خودکار
+    let autoPlay = setInterval(nextSlide, 5000);
+
+    const sliderWrapper = document.querySelector('.relative.max-w-7xl');
+    sliderWrapper.addEventListener('mouseenter', () => clearInterval(autoPlay));
+    sliderWrapper.addEventListener('mouseleave', () => {
+        autoPlay = setInterval(nextSlide, 5000);
+    });
+
+    // مدیریت تغییر اندازه پنجره و رسپانسیو داینامیک
+    window.addEventListener('resize', () => {
+        const oldSlidesPerView = slidesPerView;
+        slidesPerView = window.innerWidth >= 768 ? 2 : 1;
+        
+        if (oldSlidesPerView !== slidesPerView) {
+            currentIndex = 0; // ریست کردن ایندکس برای جلوگیری از به هم ریختگی هندسی
+            updateSlider();
+        }
+    });
+
+    updateSlider();
+
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('overlay');
+        const menuIcon = document.getElementById('menuIcon');
+
+        function openMenu() {
+            mobileMenu.classList.remove('translate-x-full');
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = 'hidden';
+            // تغییر آیکون به ضربدر
+            menuIcon.innerHTML = `
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            `;
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.add('translate-x-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            overlay.classList.remove('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = '';
+            // برگرداندن آیکون به همبرگر
+            menuIcon.innerHTML = `
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            `;
+        }
+
+        menuBtn.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('translate-x-full')) {
+                openMenu();
+            } else {
+                closeMenu();
+            }
+        });
+
+        closeMenuBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        // بستن منو با کلید Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMenu();
+        });
+
+        // اسکریپت تغییر نوار
+        // window.addEventListener('scroll', function() {
+        //     const header = document.getElementById('navbar');
+        //     if (window.scrollY > 50) {
+        //         // header.classList.add('bg-white/95', 'shadow-lg');
+        //         header.classList.remove('bg-[rgba(255,255,255,0.08)]');
+        //     } else {
+        //         // header.classList.remove('bg-white/95', 'shadow-lg');
+        //         header.classList.add('bg-[rgba(255,255,255,0.08)]');
+        //     }
+        // });
+    </script>
+
+</body>
+</html>

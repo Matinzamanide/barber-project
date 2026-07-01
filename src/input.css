@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: vaziri;
+    src: url("../public/fonts/Vazir-Bold-FD-WOL.ttf");
+}
+
+*{
+    font-family: vaziri;
+}
