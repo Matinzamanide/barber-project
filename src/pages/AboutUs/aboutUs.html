@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="stylesheet" href="../../../src/input.css">
+    <link rel="stylesheet" href="../../../src/output.css">
+    
+    <title>درباره ما</title>
+
+    <!-- styles variable -->
+    <style>
+        * {
+            /* font-family: 'Vazirmatn', sans-serif; */
+        }
+        body {
+            background: linear-gradient(135deg, '#d7e0bb' 0%, '#a3b18a' 100%);
+            min-height: 100vh;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .gradient-text {
+            background: linear-gradient(145deg, #5b6b46, #a3b18a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gradient-bg {
+            background: linear-gradient(145deg, #5b6b46, #a3b18a);
+        }
+        .hover-lift:hover {
+            transform: translateY(-6px);
+            transition: all 0.3s ease;
+        }
+        .shadow-soft {
+            box-shadow: 0 20px 40px rgba(91, 107, 70, 0.12);
+        }
+        .transition-smooth {
+            transition: all 0.3s ease;
+        }
+        .bg-pattern {
+            background-color: #fff;
+            background-image: radial-gradient(circle at 20% 50%, #a3b18a 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .border-primary {
+            border-color: #5b6b46;
+        }
+        .text-primary {
+            color: #5b6b46;
+        }
+        .text-secondary {
+            color: #a3b18a;
+        }
+        .bg-primary {
+            background-color: #5b6b46;
+        }
+        .bg-secondary {
+            background-color: #a3b18a;
+        }
+        .bg-light {
+            background-color: #d7e0bb;
+        }
+        .hover-bg-primary:hover {
+            background-color: #5b6b46;
+        }
+        .hover-text-primary:hover {
+            color: #5b6b46;
+        }
+        .ring-primary {
+            --tw-ring-color: #5b6b46;
+        }
+    </style>
+</head>
+<body class="bg-pattern font-vaziri">
+
+<div class="min-h-screen flex items-center justify-center p-4 md:p-8">
+
+    <!-- ===== کارت اصلی ===== -->
+    <div class="max-w-6xl w-full glass rounded-[60px] p-6 md:p-12 shadow-2xl" style="box-shadow: 0 30px 60px rgba(91, 107, 70, 0.15);">
+
+        <!-- ===== هدر ===== -->
+        <div class="text-center mb-12">
+            <span class="inline-block gradient-bg text-white text-xs font-bold px-6 py-2 rounded-full mb-4 tracking-wider">
+                <i class="fas fa-users ml-2"></i> درباره ما
+            </span>
+            <h1 class="text-3xl md:text-5xl font-black leading-tight" style="color: #2b2b2b;">
+                داستان <span class="gradient-text">تیم ما</span>
+            </h1>
+            <p class="text-lg max-w-2xl mx-auto mt-4 font-light" style="color: #6b6b6b;">
+                ما با عشق و تعهد، ایده‌ها رو به واقعیت تبدیل می‌کنیم. تیمی از متخصصین خلاق در کنار هم.
+            </p>
+            <div class="w-20 h-1 gradient-bg rounded-full mx-auto mt-6"></div>
+        </div>
+
+        <!-- ===== داستان ما (دو ستونی) ===== -->
+        <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-14">
+
+            <!-- متن -->
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4" style="color: #2b2b2b;">
+                    چگونه شروع کردیم؟
+                </h2>
+                <p class="leading-relaxed mb-4 font-light text-base" style="color: #6b6b6b;">
+                    <span class="font-bold" style="color: #5b6b46;">تیم ما</span> از یک ایده کوچک در سال ۱۳۹۸ شروع به کار کرد. 
+                    با دیدن فاصله بین نیازهای واقعی کاربران و محصولات موجود، تصمیم گرفتیم 
+                    مسیر جدیدی رو شروع کنیم.
+                </p>
+                <p class="leading-relaxed mb-4 font-light text-base" style="color: #6b6b6b;">
+                    امروز پس از <span class="font-bold" style="color: #5b6b46;">۵ سال تجربه</span> و همکاری با بیش از ۵۰ برند، 
+                    به تیمی حرفه‌ای و متعهد تبدیل شدیم که کیفیت و خلاقیت رو سرلوحه کار خودمون قرار دادیم.
+                </p>
+                <p class="leading-relaxed font-light text-base" style="color: #6b6b6b;">
+                    <i class="fas fa-quote-right text-2xl opacity-50" style="color: #5b6b46;"></i>
+                    <em style="color: #6b6b6b;">ما به قدرت تیم‌سازی و همدلی باور داریم و هر روز برای بهتر شدن تلاش می‌کنیم.</em>
+                </p>
+            </div>
+
+            <!-- تصویر -->
+            <div class="rounded-[32px] h-64 md:h-80 flex items-center justify-center relative overflow-hidden shadow-soft" style="background: linear-gradient(145deg, #d7e0bb, #a3b18a);">
+                <i class="fas fa-rocket opacity-30 text-8xl md:text-9xl" style="color: #5b6b46;"></i>
+                <span class="absolute bg-white/90 backdrop-blur-sm font-bold px-6 py-3 rounded-full text-sm md:text-base shadow-lg" style="color: #2b2b2b;">
+                    ✨ از ایده تا اجرا
+                </span>
+            </div>
+        </div>
+
+        <!-- ===== آمار ===== -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-14">
+            <div class="bg-white/60 rounded-3xl p-6 text-center border hover-lift transition-smooth shadow-soft" style="border-color: rgba(163, 177, 138, 0.3);">
+                <i class="fas fa-calendar-check text-3xl block mb-2" style="color: #5b6b46;"></i>
+                <span class="text-3xl md:text-4xl font-black block" style="color: #2b2b2b;">۵+</span>
+                <span class="text-sm font-light" style="color: #6b6b6b;">سال تجربه</span>
+            </div>
+            <div class="bg-white/60 rounded-3xl p-6 text-center border hover-lift transition-smooth shadow-soft" style="border-color: rgba(163, 177, 138, 0.3);">
+                <i class="fas fa-project-diagram text-3xl block mb-2" style="color: #5b6b46;"></i>
+                <span class="text-3xl md:text-4xl font-black block" style="color: #2b2b2b;">۱۲۰+</span>
+                <span class="text-sm font-light" style="color: #6b6b6b;">پروژه موفق</span>
+            </div>
+            <div class="bg-white/60 rounded-3xl p-6 text-center border hover-lift transition-smooth shadow-soft" style="border-color: rgba(163, 177, 138, 0.3);">
+                <i class="fas fa-user-friends text-3xl block mb-2" style="color: #5b6b46;"></i>
+                <span class="text-3xl md:text-4xl font-black block" style="color: #2b2b2b;">۲۴</span>
+                <span class="text-sm font-light" style="color: #6b6b6b;">عضو تیم</span>
+            </div>
+            <div class="bg-white/60 rounded-3xl p-6 text-center border hover-lift transition-smooth shadow-soft" style="border-color: rgba(163, 177, 138, 0.3);">
+                <i class="fas fa-star text-3xl block mb-2" style="color: #5b6b46;"></i>
+                <span class="text-3xl md:text-4xl font-black block" style="color: #2b2b2b;">۹۸٪</span>
+                <span class="text-sm font-light" style="color: #6b6b6b;">رضایت مشتری</span>
+            </div>
+        </div>
+
+        <!-- ===== تیم ما ===== -->
+        <div class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" style="color: #2b2b2b;">
+                👥 اعضای کلیدی تیم
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+
+                <!-- عضو ۱ -->
+                <div class="bg-white/70 rounded-3xl p-6 text-center border hover-lift transition-smooth shadow-soft" style="border-color: rgba(163, 177, 138, 0.3);">
+                    <div class="w-20 h-20 rounded-full flex items-center justify-center text-white text-3xl font-black mx-auto mb-3 shadow-lg" style="background: linear-gradient(145deg, #5b6b46, #a3b18a); box-shadow: 0 12px 30px rgba(91, 107, 70, 0.2);">
+                        م
+                    </div>
+                    <h4 class="font-bold" style="color: #2b2b2b;">محمد رضایی</h4>
+                    <p class="text-sm font-light" style="color: #6b6b6b;">مدیر عامل &amp; بنیان‌گذار</p>
+                    <div class="flex justify-center gap-3 mt-3" style="color: #6b6b6b;">
+                        <a href="#" class="hover:text-primary transition-smooth"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="hover:text-primary transition-smooth"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- عضو ۲ -->
+                <div class="bg-white/70 rounded-3xl p-6 text-center border hover-lift transition-smooth shadow-soft" style="border-color: rgba(163, 177, 138, 0.3);">
+                    <div class="w-20 h-20 rounded-full flex items-center justify-center text-white text-3xl font-black mx-auto mb-3 shadow-lg" style="background: linear-gradient(145deg, #5b6b46, #a3b18a); box-shadow: 0 12px 30px rgba(91, 107, 70, 0.2);">
+                        س
+                    </div>
+                    <h4 class="font-bold" style="color: #2b2b2b;">سارا احمدی</h4>
+                    <p class="text-sm font-light" style="color: #6b6b6b;">مدیر طراحی (UI/UX)</p>
+                    <div class="flex justify-center gap-3 mt-3" style="color: #6b6b6b;">
+                        <a href="#" class="hover:text-primary transition-smooth"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="hover:text-primary transition-smooth"><i class="fab fa-dribbble"></i></a>
+                    </div>
+                </div>
+
+                <!-- عضو ۳ -->
+                <div class="bg-white/70 rounded-3xl p-6 text-center border hover-lift transition-smooth shadow-soft" style="border-color: rgba(163, 177, 138, 0.3);">
+                    <div class="w-20 h-20 rounded-full flex items-center justify-center text-white text-3xl font-black mx-auto mb-3 shadow-lg" style="background: linear-gradient(145deg, #5b6b46, #a3b18a); box-shadow: 0 12px 30px rgba(91, 107, 70, 0.2);">
+                        ع
+                    </div>
+                    <h4 class="font-bold" style="color: #2b2b2b;">علی کریمی</h4>
+                    <p class="text-sm font-light" style="color: #6b6b6b;">توسعه‌دهنده ارشد</p>
+                    <div class="flex justify-center gap-3 mt-3" style="color: #6b6b6b;">
+                        <a href="#" class="hover:text-primary transition-smooth"><i class="fab fa-github"></i></a>
+                        <a href="#" class="hover:text-primary transition-smooth"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- عضو ۴ -->
+                <div class="bg-white/70 rounded-3xl p-6 text-center border hover-lift transition-smooth shadow-soft" style="border-color: rgba(163, 177, 138, 0.3);">
+                    <div class="w-20 h-20 rounded-full flex items-center justify-center text-white text-3xl font-black mx-auto mb-3 shadow-lg" style="background: linear-gradient(145deg, #5b6b46, #a3b18a); box-shadow: 0 12px 30px rgba(91, 107, 70, 0.2);">
+                        ن
+                    </div>
+                    <h4 class="font-bold" style="color: #2b2b2b;">نیلوفر موسوی</h4>
+                    <p class="text-sm font-light" style="color: #6b6b6b;">مدیر پروژه</p>
+                    <div class="flex justify-center gap-3 mt-3" style="color: #6b6b6b;">
+                        <a href="#" class="hover:text-primary transition-smooth"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="hover:text-primary transition-smooth"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== دکمه CTA ===== -->
+        <div class="text-center">
+            <a href="#" class="inline-block text-white font-bold px-10 py-4 rounded-full shadow-lg transition-all duration-300 text-base hover:scale-105" style="background: linear-gradient(145deg, #5b6b46, #a3b18a); box-shadow: 0 12px 30px rgba(91, 107, 70, 0.3);">
+                <i class="fas fa-paper-plane ml-2"></i> با ما همراه شوید
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

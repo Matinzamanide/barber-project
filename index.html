@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="src/output.css">
     <title>سالن زیبایی - متخصص مو</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;700&display=swap');
+        html{
+            scroll-behavior: smooth;
+        }
         body { font-family: 'Vazirmatn', sans-serif; background-color: #fcfbfa; }
         :root {
             --color-primary: #5b6b46;
@@ -17,91 +20,307 @@
         
         /* انیمیشن منو */
         @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
-        .menu-open {
-            animation: slideIn 0.4s ease forwards;
-        }
-        .menu-close {
-            animation: slideOut 0.3s ease forwards;
-        }
-        .menu-overlay {
-            transition: opacity 0.4s ease;
-        }
+        .menu-open { animation: slideIn 0.4s ease forwards; }
+        .menu-close { animation: slideOut 0.3s ease forwards; }
+        .menu-overlay { transition: opacity 0.4s ease; }
         
-        /* اسکرول بندی منو */
         .mobile-menu-scroll {
             scrollbar-width: thin;
             scrollbar-color: #5b6b46 transparent;
         }
-        .mobile-menu-scroll::-webkit-scrollbar {
-            width: 4px;
+        .mobile-menu-scroll::-webkit-scrollbar { width: 4px; }
+        .mobile-menu-scroll::-webkit-scrollbar-thumb { background: #5b6b46; border-radius: 10px; }
+        .mobile-menu-scroll::-webkit-scrollbar-track { background: transparent; }
+
+        /* ===== استایل‌های فیلتر نمونه کارها ===== */
+        .filter-btn {
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            background: white;
+            color: #6b6b6b;
         }
-        .mobile-menu-scroll::-webkit-scrollbar-thumb {
+        .filter-btn:hover {
+            border-color: #5b6b46;
+            color: #5b6b46;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(91, 107, 70, 0.15);
+        }
+        .filter-btn.active {
             background: #5b6b46;
-            border-radius: 10px;
+            color: white;
+            border-color: #5b6b46;
+            box-shadow: 0 4px 15px rgba(91, 107, 70, 0.3);
         }
-        .mobile-menu-scroll::-webkit-scrollbar-track {
-            background: transparent;
+
+        .portfolio-item { transition: all 0.4s ease; opacity: 1; transform: scale(1); }
+        .portfolio-item.hidden {
+            opacity: 0; transform: scale(0.8); position: absolute;
+            pointer-events: none; width: 0; height: 0;
+            overflow: hidden; margin: 0; padding: 0; border: 0;
+        }
+        .portfolio-item.show { animation: fadeInUp 0.5s ease forwards; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ===== استایل‌های فرم رزرو نوبت ===== */
+        .booking-form input, .booking-form select { transition: all 0.3s ease; }
+        .booking-form input:focus, .booking-form select:focus {
+            outline: none; border-color: #5b6b46;
+            box-shadow: 0 0 0 3px rgba(91, 107, 70, 0.1);
+        }
+        .service-card { transition: all 0.3s ease; cursor: pointer; }
+        .service-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(91, 107, 70, 0.15); }
+        .service-card.selected {
+            border-color: #5b6b46; background: #f0f4eb;
+            box-shadow: 0 0 0 3px rgba(91, 107, 70, 0.2);
+        }
+
+        /* ===== استایل‌های مودال پرداخت ===== */
+        .payment-modal {
+            display: none; position: fixed; inset: 0; z-index: 100;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease;
+        }
+        .payment-modal.active { display: flex;  justify-content: center; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .payment-modal-content {
+            background: white; border-radius: 24px; padding: 32px;
+            overflow-y: scroll;
+            max-width: 480px; width: 90%; animation: slideUp 0.4s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .amount-display {
+            background: linear-gradient(135deg, #5b6b46 0%, #4a5a36 100%);
+            color: white; padding: 24px; border-radius: 16px;
+            text-align: center; margin: 24px 0;
+        }
+        .amount-number { font-size: 38px; font-weight: 900; margin: 8px 0; }
+        .pay-button {
+            width: 100%; padding: 16px;
+            background: linear-gradient(135deg, #5b6b46 0%, #4a5a36 100%);
+            color: white; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(91, 107, 70, 0.3);
+        }
+        .pay-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(91, 107, 70, 0.4); }
+        .pay-button:active { transform: translateY(0); }
+
+        /* ===== استایل‌های بخش مقالات ===== */
+        .article-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #f1f1f1;
+            transition: all 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(91, 107, 70, 0.12);
+            border-color: #5b6b46/20;
+        }
+
+        .article-card-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .article-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card:hover .article-card-image img {
+            transform: scale(1.08);
+        }
+
+        .article-category-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(91, 107, 70, 0.95);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .article-card-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 12px;
+            color: #6b6b6b;
+            margin-bottom: 12px;
+        }
+
+        .article-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2b2b2b;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover .article-title {
+            color: #5b6b46;
+        }
+
+        .article-excerpt {
+            font-size: 14px;
+            color: #6b6b6b;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .article-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #5b6b46;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 0;
+            border-top: 1px solid #f1f1f1;
+            transition: all 0.3s ease;
+        }
+
+        .article-read-more:hover {
+            gap: 12px;
+        }
+
+        .article-read-more svg {
+            transition: transform 0.3s ease;
+        }
+
+        .article-read-more:hover svg {
+            transform: translateX(-4px);
+        }
+
+        /* استایل Swiper برای مقالات */
+        .articles-slider {
+            padding: 20px 10px 60px;
+        }
+
+        .articles-slider .swiper-pagination-bullet {
+            background: #5b6b46;
+            opacity: 0.3;
+        }
+
+        .articles-slider .swiper-pagination-bullet-active {
+            opacity: 1;
+            width: 24px;
+            border-radius: 6px;
+        }
+
+        .articles-slider .swiper-button-next,
+        .articles-slider .swiper-button-prev {
+           
+        }
+
+        .articles-slider .swiper-button-next:hover,
+        .articles-slider .swiper-button-prev:hover {
+          
+        }
+
+        .articles-slider .swiper-button-next::after,
+        .articles-slider .swiper-button-prev::after {
+            
+        }
+
+        @media (max-width: 768px) {
+            .articles-slider .swiper-button-next,
+            .articles-slider .swiper-button-prev {
+                display: none;
+            }
         }
     </style>
 </head>
 <body class="text-[#2b2b2b]">
 
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- دکمه همبرگر (موبایل) -->
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <button class="md:hidden text-[#2b2b2b] hover:text-[#5b6b46] transition-colors p-2" id="menuToggle">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
 
-            <!-- دکمه رزرو (دسکتاپ) -->
             <button class="hidden md:block bg-[#5b6b46] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#4a5a36] transition-colors">
-                رزرو نوبت
+                <a href="#reservation">رزرو نوبت</a>
             </button>
 
-            <!-- منوی اصلی (دسکتاپ) -->
             <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-[#6b6b6b]">
                 <a href="#" class="text-[#5b6b46] font-bold">صفحه اصلی</a>
-                <a href="#" class="hover:text-[#5b6b46] transition-colors">درباره من</a>
-                <a href="#" class="hover:text-[#5b6b46] transition-colors">خدمات</a>
-                <a href="#" class="hover:text-[#5b6b46] transition-colors">نمونه کارها</a>
-                <a href="#" class="hover:text-[#5b6b46] transition-colors">نظرات مشتریان</a>
-                <a href="#" class="hover:text-[#5b6b46] transition-colors">تماس با من</a>
+                <a href="./src/pages/AboutUs/aboutUs.html" class="hover:text-[#5b6b46] transition-colors">درباره من</a>
+                <a href="#services" class="hover:text-[#5b6b46] transition-colors">خدمات</a>
+                <a href="#portfolio" class="hover:text-[#5b6b46] transition-colors">نمونه کارها</a>
+                <a href="#articles" class="hover:text-[#5b6b46] transition-colors">مقالات</a>
+                <a href="#user__coments" class="hover:text-[#5b6b46] transition-colors">نظرات مشتریان</a>
+                <a href="./src/pages/ContactUs/ContactUs.html" class="hover:text-[#5b6b46] transition-colors">تماس با من</a>
             </nav>
 
-            <!-- لوگو -->
-            <div class="text-xl font-bold text-[#5b6b46]">لوگو</div>
+            <div class="text-xl font-bold text-[#5b6b46]">
+                <img src="public/images/elham.png" class="w-16" alt="">
+            </div>
         </div>
     </header>
 
-    <!-- ==================== منوی همبرگر (موبایل) ==================== -->
-    
-    <!-- پس‌زمینه تاری -->
+    <!-- منوی همبرگر (موبایل) -->
     <div id="menuOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-400 md:hidden"></div>
     
-    <!-- منوی کشویی -->
     <div id="mobileMenu" class="fixed top-0 right-0 w-full max-w-sm h-full bg-white z-50 shadow-2xl transform translate-x-full md:hidden">
-        <!-- هدر منو -->
         <div class="flex justify-between items-center p-6 border-b border-gray-100">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-[#5b6b46] rounded-full flex items-center justify-center">
@@ -119,52 +338,50 @@
             </button>
         </div>
 
-        <!-- لینک‌های منو -->
         <nav class="p-6 space-y-4 mobile-menu-scroll h-[calc(100vh-180px)] overflow-y-auto">
             <a href="#" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
                 <span>صفحه اصلی</span>
                 <span class="text-[#5b6b46] opacity-0 group-hover:opacity-100 transition-opacity">←</span>
             </a>
-            <a href="#" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
+            <a href="src/pages/AboutUs/aboutUs.html" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
                 <span>درباره من</span>
                 <span class="text-[#5b6b46] opacity-0 group-hover:opacity-100 transition-opacity">←</span>
             </a>
-            <a href="#" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
+            <a href="#services" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
                 <span>خدمات</span>
                 <span class="text-[#5b6b46] opacity-0 group-hover:opacity-100 transition-opacity">←</span>
             </a>
-            <a href="#" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
+            <a href="#portfolio" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
                 <span>نمونه کارها</span>
                 <span class="text-[#5b6b46] opacity-0 group-hover:opacity-100 transition-opacity">←</span>
             </a>
-            <a href="#" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
+            <a href="#articles" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
+                <span>مقالات</span>
+                <span class="text-[#5b6b46] opacity-0 group-hover:opacity-100 transition-opacity">←</span>
+            </a>
+            <a href="#user__coments" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
                 <span>نظرات مشتریان</span>
                 <span class="text-[#5b6b46] opacity-0 group-hover:opacity-100 transition-opacity">←</span>
             </a>
-            <a href="#" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
+            <a href="./src/pages/ContactUs/ContactUs.html" class="flex items-center justify-between text-[#2b2b2b] hover:text-[#5b6b46] text-lg font-medium transition-colors duration-300 group py-2 border-b border-gray-50">
                 <span>تماس با من</span>
                 <span class="text-[#5b6b46] opacity-0 group-hover:opacity-100 transition-opacity">←</span>
             </a>
         </nav>
 
-        <!-- بخش پایین منو -->
         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white to-transparent pt-12">
             <button class="w-full bg-[#5b6b46] hover:bg-[#4a5a36] text-white px-6 py-3.5 rounded-xl font-medium transition-all duration-300 shadow-lg shadow-[#5b6b46]/20">
-                📅 رزرو نوبت
+                <a href="#reservation">رزرو نوبت</a>
             </button>
-            <div class="flex justify-center gap-4 mt-4">
-                <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-[#6b6b6b] hover:bg-[#5b6b46] hover:text-white transition-all duration-300">📸</a>
-                <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-[#6b6b6b] hover:bg-[#5b6b46] hover:text-white transition-all duration-300">💬</a>
-                <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-[#6b6b6b] hover:bg-[#5b6b46] hover:text-white transition-all duration-300">📞</a>
-            </div>
+            
         </div>
     </div>
 
-    <!-- بخش اصلی هیرو -->
+    <!-- هیرو -->
     <section class="pt-32 pb-20 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div class="relative flex justify-center order-1 lg:order-2">
             <div class="relative w-full max-w-md aspect-[4/5] rounded-t-full overflow-hidden border-[12px] border-white shadow-xl">
-                <img src="./public/images/imageweb.png" alt="متخصص مو" class="w-full h-full object-cover">
+                <img src="public/images/hreo-s.jpeg"alt="متخصص مو" class="w-full h-full object-cover">
             </div>
             <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-[#5b6b46] text-white rounded-full flex flex-col items-center justify-center text-center p-2 shadow-lg">
                 <span class="text-xs font-light">زیبایی</span>
@@ -183,10 +400,11 @@
             </p>
             <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
                 <button class="bg-[#5b6b46] text-white px-8 py-3.5 rounded-xl font-medium shadow-lg hover:bg-[#4a5a36] transition-all">
-                    رزرو نوبت
+                    <a href="#reservation"> رزرو نوبت</a>
+                   
                 </button>
                 <button class="border border-[#5b6b46] text-[#5b6b46] px-8 py-3.5 rounded-xl font-medium hover:bg-[#5b6b46]/5 transition-all">
-                    مشاهده نمونه کارها
+                    <a href="#portfolio">مشاهده نمونه کارها</a>
                 </button>
             </div>
             <div class="flex gap-6 justify-center lg:justify-start text-xs text-[#6b6b6b] pt-6 border-t border-gray-100">
@@ -197,7 +415,8 @@
         </div>
     </section>
 
-    <!-- بخش خدمات -->
+    <span id="services"></span>
+    <!-- خدمات -->
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-xl mx-auto mb-16">
@@ -210,319 +429,647 @@
                     <div class="text-3xl text-[#5b6b46]">💇‍♀️</div>
                     <h3 class="text-xl font-bold">فر دائم</h3>
                     <p class="text-sm text-[#6b6b6b]">فر دائم با مواد با کیفیت و بدون آسیب به مو</p>
-                    <a href="#" class="text-xs font-medium text-[#5b6b46] inline-block border-b border-[#5b6b46] pb-1">مشاهده بیشتر</a>
                 </div>
                 <div class="bg-[#fcfbfa] border border-gray-100 rounded-2xl p-8 text-center space-y-4 hover:shadow-md transition-shadow">
                     <div class="text-3xl text-[#5b6b46]">✨</div>
                     <h3 class="text-xl font-bold">کراتین و احیا</h3>
                     <p class="text-sm text-[#6b6b6b]">انواع کراتین، احیا و بوتاکس برای صافی و درخشش مو</p>
-                    <a href="#" class="text-xs font-medium text-[#5b6b46] inline-block border-b border-[#5b6b46] pb-1">مشاهده بیشتر</a>
                 </div>
                 <div class="bg-[#fcfbfa] border border-gray-100 rounded-2xl p-8 text-center space-y-4 hover:shadow-md transition-shadow">
                     <div class="text-3xl text-[#5b6b46]">🎨</div>
                     <h3 class="text-xl font-bold">لایت و بالیاژ</h3>
                     <p class="text-sm text-[#6b6b6b]">لایت، هایلایت و بالیاژ با جدیدترین متدهای روز</p>
-                    <a href="#" class="text-xs font-medium text-[#5b6b46] inline-block border-b border-[#5b6b46] pb-1">مشاهده بیشتر</a>
                 </div>
                 <div class="bg-[#fcfbfa] border border-gray-100 rounded-2xl p-8 text-center space-y-4 hover:shadow-md transition-shadow">
                     <div class="text-3xl text-[#5b6b46]">✂️</div>
                     <h3 class="text-xl font-bold">رنگ و مش</h3>
                     <p class="text-sm text-[#6b6b6b]">انواع تکنیک‌های رنگ و مش با بهترین برندهای دنیا</p>
-                    <a href="#" class="text-xs font-medium text-[#5b6b46] inline-block border-b border-[#5b6b46] pb-1">مشاهده بیشتر</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- بخش نمونه کارها -->
-    <section class="py-20 bg-[#fcfbfa]">
+    <span id="reservation"></span>
+    <!-- ===== بخش رزرو نوبت ===== -->
+    <section class="py-20 bg-white" id="booking-section">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-[#2b2b2b]">رزرو نوبت آنلاین</h2>
+                <p class="text-sm text-[#6b6b6b] mt-2">به راحتی نوبت خود را رزرو کنید</p>
+                <div class="w-12 h-1 bg-[#5b6b46] mx-auto mt-3"></div>
+            </div>
+
+            <form id="bookingForm" class="booking-form bg-[#fcfbfa] rounded-2xl p-8 border border-gray-100 shadow-sm">
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-[#2b2b2b] mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-[#5b6b46] text-white rounded-full flex items-center justify-center text-sm">۱</span>
+                        اطلاعات شخصی
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-[#2b2b2b] mb-2">نام</label>
+                            <input type="text" id="firstName" required placeholder="نام خود را وارد کنید" 
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#2b2b2b] mb-2">نام خانوادگی</label>
+                            <input type="text" id="lastName" required placeholder="نام خانوادگی خود را وارد کنید" 
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-[#2b2b2b] mb-2">شماره تماس</label>
+                            <input type="tel" id="phoneNumber" required placeholder="۰۹۱۲۳۴۵۶۷۸۹" 
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white" dir="ltr">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-[#2b2b2b] mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-[#5b6b46] text-white rounded-full flex items-center justify-center text-sm">۲</span>
+                        انتخاب خدمت مورد نظر
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="servicesList"></div>
+                </div>
+
+                <button type="submit" class="w-full bg-[#5b6b46] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#4a5a36] transition-all shadow-lg shadow-[#5b6b46]/20">
+                    ثبت نوبت و پرداخت بیعانه
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- مودال پرداخت -->
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-modal-content relative">
+            <button id="closePaymentModal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-[#5b6b46]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-[#5b6b46]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-[#2b2b2b]">پرداخت بیعانه</h3>
+                <p class="text-sm text-[#6b6b6b] mt-2">برای تکمیل رزرو، بیعانه را پرداخت کنید</p>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl p-4 mb-4 space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-[#6b6b6b]">نام:</span>
+                    <span class="font-medium text-[#2b2b2b]" id="modalFullName"></span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-[#6b6b6b]">شماره تماس:</span>
+                    <span class="font-medium text-[#2b2b2b]" id="modalPhone"></span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-[#6b6b6b]">خدمت انتخابی:</span>
+                    <span class="font-medium text-[#2b2b2b]" id="modalService"></span>
+                </div>
+            </div>
+
+            <div class="amount-display">
+                <p class="text-sm opacity-90">مبلغ بیعانه</p>
+                <div class="amount-number" id="modalAmount">۰</div>
+                <p class="text-sm opacity-90">تومان</p>
+            </div>
+
+            <div class="bg-amber-50 border-r-4 border-amber-500 p-4 rounded-lg mb-6">
+                <p class="text-xs text-amber-800">
+                    <strong>توجه:</strong> این مبلغ به عنوان بیعانه دریافت می‌شود و در هزینه نهایی خدمت کسر خواهد شد.
+                </p>
+            </div>
+
+            <button id="payButton" class="pay-button">💳 پرداخت آنلاین</button>
+            <button id="cancelButton" class="w-full mt-3 py-3 text-sm text-[#6b6b6b] hover:text-[#2b2b2b] transition-colors">
+                انصراف از رزرو
+            </button>
+        </div>
+    </div>
+
+    <span id="portfolio"></span>
+    <!-- نمونه کارها با قابلیت فیلتر -->
+    <section class="py-20 bg-[#fcfbfa]" id="portfolio-section">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-xl mx-auto mb-16">
                 <h2 class="text-3xl font-bold text-[#2b2b2b]">نمونه کارها</h2>
                 <p class="text-sm text-[#6b6b6b] mt-2">تغییر واقعی، نتیجه تخصص و تجربه</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex">
+            <div class="flex flex-wrap justify-center gap-3 mb-12" id="filterButtons">
+                <button class="filter-btn active" data-filter="all">✨ همه</button>
+                <button class="filter-btn" data-filter="keratin">💆‍♀️ کراتین</button>
+                <button class="filter-btn" data-filter="curl">💇‍♀️ فر مو</button>
+                <button class="filter-btn" data-filter="color">🎨 رنگ مو</button>
+                <button class="filter-btn" data-filter="highlight">✨ هایلایت</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolioGrid">
+                <div class="portfolio-item bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex" data-category="keratin">
                     <div class="w-1/2 relative">
-                        <img src="public/images/IMG_ghabl.jpeg" alt="بعد" class="w-full h-64 object-cover">
-                        <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">بعد</span>
+                        <img src="public/images/IMG_9523 (2).jpeg" alt="بعد" class="w-full h-64 object-cover">
+                        <span class="absolute bottom-2 right-2 bg-[#5b6b46]/90 text-white text-xs px-2 py-0.5 rounded">بعد</span>
                     </div>
                     <div class="w-1/2 relative border-r border-gray-100">
-                        <img src="public/images/IMG_bad.jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
+                        <img src="public/images/IMG_0393 (1).jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
                         <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">قبل</span>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex">
+                <div class="portfolio-item bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex" data-category="curl">
                     <div class="w-1/2 relative">
-                        <img src="public/images/IMG_ghabl.jpeg" alt="بعد" class="w-full h-64 object-cover">
-                        <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">بعد</span>
+                        <img src="public/images/IMG_9523 (2).jpeg" alt="بعد" class="w-full h-64 object-cover">
+                        <span class="absolute bottom-2 right-2 bg-[#5b6b46]/90 text-white text-xs px-2 py-0.5 rounded">بعد</span>
                     </div>
                     <div class="w-1/2 relative border-r border-gray-100">
-                        <img src="public/images/IMG_bad.jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
+                        <img src="public/images/IMG_0393 (1).jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
                         <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">قبل</span>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex">
+                <div class="portfolio-item bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex" data-category="color">
                     <div class="w-1/2 relative">
-                        <img src="public/images/IMG_ghabl.jpeg" alt="بعد" class="w-full h-64 object-cover">
-                        <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">بعد</span>
+                        <img src="public/images/IMG_9523 (2).jpeg" alt="بعد" class="w-full h-64 object-cover">
+                        <span class="absolute bottom-2 right-2 bg-[#5b6b46]/90 text-white text-xs px-2 py-0.5 rounded">بعد</span>
                     </div>
                     <div class="w-1/2 relative border-r border-gray-100">
-                        <img src="public/images/IMG_bad.jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
+                        <img src="public/images/IMG_0393 (1).jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
+                        <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">قبل</span>
+                    </div>
+                </div>
+                <div class="portfolio-item bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex" data-category="highlight">
+                    <div class="w-1/2 relative">
+                        <img src="public/images/IMG_9523 (2).jpeg" alt="بعد" class="w-full h-64 object-cover">
+                        <span class="absolute bottom-2 right-2 bg-[#5b6b46]/90 text-white text-xs px-2 py-0.5 rounded">بعد</span>
+                    </div>
+                    <div class="w-1/2 relative border-r border-gray-100">
+                        <img src="public/images/IMG_9523 (2).jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
+                        <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">قبل</span>
+                    </div>
+                </div>
+                <div class="portfolio-item bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex" data-category="keratin">
+                    <div class="w-1/2 relative">
+                        <img src="public/images/IMG_9523 (2).jpeg" alt="بعد" class="w-full h-64 object-cover">
+                        <span class="absolute bottom-2 right-2 bg-[#5b6b46]/90 text-white text-xs px-2 py-0.5 rounded">بعد</span>
+                    </div>
+                    <div class="w-1/2 relative border-r border-gray-100">
+                        <img src="public/images/IMG_0393 (1).jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
+                        <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">قبل</span>
+                    </div>
+                </div>
+                <div class="portfolio-item bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex" data-category="curl">
+                    <div class="w-1/2 relative">
+                        <img src="public/images/IMG_9523 (2).jpeg" alt="بعد" class="w-full h-64 object-cover">
+                        <span class="absolute bottom-2 right-2 bg-[#5b6b46]/90 text-white text-xs px-2 py-0.5 rounded">بعد</span>
+                    </div>
+                    <div class="w-1/2 relative border-r border-gray-100">
+                        <img src="public/images/IMG_0393 (1).jpeg" alt="قبل" class="w-full h-64 object-cover grayscale">
                         <span class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded">قبل</span>
                     </div>
                 </div>
             </div>
+
+            <div class="text-center mt-6">
+                <p class="text-sm text-[#6b6b6b]" id="resultCount">نمایش <span class="font-bold text-[#5b6b46]">6</span> نمونه کار</p>
+            </div>
             
-            <div class="text-center mt-12">
-                <button class="bg-[#5b6b46] text-white px-8 py-3 rounded-xl text-sm font-medium hover:bg-[#4a5a36] transition-colors">
-                    مشاهده همه نمونه کارها
-                </button>
+         
+        </div>
+        <span id="articles"></span>
+    </section>
+
+    <!-- ===== بخش مقالات ===== -->
+    <section class="py-20 bg-white" id="articles-section">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- هدر بخش -->
+            <div class="text-center max-w-xl mx-auto mb-14">
+                <span class="inline-flex items-center gap-2 text-[#5b6b46] text-sm font-bold mb-3 tracking-wider bg-[#5b6b46]/10 px-4 py-1.5 rounded-full">
+                    <i class="fas fa-sparkles text-xs"></i>
+                    مجله زیبایی
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#2b2b2b]">آخرین مقالات</h2>
+                <p class="text-sm text-[#6b6b6b] mt-3 leading-relaxed">
+                    نکات کاربردی، آموزش‌های تخصصی و رازهای مراقبت از مو
+                </p>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-[#5b6b46] to-[#8ba37a] mx-auto mt-5 rounded-full"></div>
+            </div>
+    
+            <!-- اسلایدر مقالات -->
+            <div class="relative max-w-6xl mx-auto">
+                <div class="swiper articles-slider overflow-hidden">
+                    <div class="swiper-wrapper pb-10">
+                        
+                        <!-- مقاله ۱ -->
+                        <div class="swiper-slide h-auto px-2.5">
+                            <article class="article-card">
+                                <div class="article-card-image">
+                                    <img src="https://skinbazar.com/wp-content/uploads/2021/12/ksowzjinnju2.jpeg" alt="مراقبت از مو">
+                                    <span class="article-category-badge">مراقبت از مو</span>
+                                </div>
+                                <div class="article-card-body">
+                                    <div class="article-meta">
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            ۱۵ تیر ۱۴۰۵
+                                        </span>
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            ۵ دقیقه مطالعه
+                                        </span>
+                                    </div>
+                                    <h3 class="article-title">۱۰ نکته طلایی برای مراقبت از موهای رنگ شده</h3>
+                                    <p class="article-excerpt">
+                                        موهای رنگ شده نیاز به مراقبت ویژه‌ای دارند. در این مقاله با بهترین روش‌های حفظ رنگ و سلامت موهای رنگ شده آشنا می‌شوید...
+                                    </p>
+                                    <a href="#!" class="article-read-more">
+                                        ادامه مطلب
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+    
+                        <!-- مقاله ۲ -->
+                        <div class="swiper-slide h-auto px-2.5">
+                            <article class="article-card">
+                                <div class="article-card-image">
+                                    <img src="https://www.khanoumi.com/blog/wp-content/uploads/2020/10/fee9e9f84adde0350fdbcf76c987236b.jpg" alt="کراتین مو">
+                                    <span class="article-category-badge">کراتین</span>
+                                </div>
+                                <div class="article-card-body">
+                                    <div class="article-meta">
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            ۱۰ تیر ۱۴۰۵
+                                        </span>
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            ۸ دقیقه مطالعه
+                                        </span>
+                                    </div>
+                                    <h3 class="article-title">کراتین مو چیست؟ همه چیز درباره صافی دائمی مو</h3>
+                                    <p class="article-excerpt">
+                                        کراتین یکی از محبوب‌ترین روش‌های صاف کردن مو است. در این مقاله به بررسی کامل مزایا، معایب و مراقبت‌های بعد از کراتین می‌پردازیم...
+                                    </p>
+                                    <a href="#!" class="article-read-more">
+                                        ادامه مطلب
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+    
+                        <!-- مقاله ۳ -->
+                        <div class="swiper-slide h-auto px-2.5">
+                            <article class="article-card">
+                                <div class="article-card-image">
+                                    <img src="https://image.torob.com/base/images/4u/0x/4u0xKqu_8o5wz8qY.jpg_/560x560.webp" alt="رنگ مو">
+                                    <span class="article-category-badge">رنگ مو</span>
+                                </div>
+                                <div class="article-card-body">
+                                    <div class="article-meta">
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            ۵ تیر ۱۴۰۵
+                                        </span>
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            ۶ دقیقه مطالعه
+                                        </span>
+                                    </div>
+                                    <h3 class="article-title">ترندهای رنگ مو در سال ۲۰۲۶؛ چه رنگی مد است؟</h3>
+                                    <p class="article-excerpt">
+                                        امسال رنگ‌های طبیعی و گرم در دنیای مد مو حرف اول را می‌زنند. با جدیدترین ترندهای رنگ مو در سال ۲۰۲۶ آشنا شوید...
+                                    </p>
+                                    <a href="#!" class="article-read-more">
+                                        ادامه مطلب
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+    
+                        <!-- مقاله ۴ -->
+                        <div class="swiper-slide h-auto px-2.5">
+                            <article class="article-card">
+                                <div class="article-card-image">
+                                    <img src="https://elanza.com/mag/wp-content/uploads/2023/10/cheap-skin-care-products-1.jpg" alt="فر مو">
+                                    <span class="article-category-badge">فر مو</span>
+                                </div>
+                                <div class="article-card-body">
+                                    <div class="article-meta">
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            ۱ تیر ۱۴۰۵
+                                        </span>
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            ۷ دقیقه مطالعه
+                                        </span>
+                                    </div>
+                                    <h3 class="article-title">فر دائم یا موقت؟ کدام روش برای شما مناسب‌تر است؟</h3>
+                                    <p class="article-excerpt">
+                                        انتخاب بین فر دائم و موقت به جنس مو، سبک زندگی و بودجه شما بستگی دارد. در این مقاله به مقایسه کامل این دو روش می‌پردازیم...
+                                    </p>
+                                    <a href="#!" class="article-read-more">
+                                        ادامه مطلب
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+    
+                        <!-- مقاله ۵ -->
+                        <div class="swiper-slide h-auto px-2.5">
+                            <article class="article-card">
+                                <div class="article-card-image">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_jLkTyiLgWn7GnujIsMv2WGXUCWzppQsf8O4VtgnY3Dd4IRDR58n4Zgg0&s=10" alt="ریزش مو">
+                                    <span class="article-category-badge">سلامت مو</span>
+                                </div>
+                                <div class="article-card-body">
+                                    <div class="article-meta">
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            ۲۸ خرداد ۱۴۰۵
+                                        </span>
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            ۱۰ دقیقه مطالعه
+                                        </span>
+                                    </div>
+                                    <h3 class="article-title">دلایل ریزش مو و راه‌های پیشگیری از آن</h3>
+                                    <p class="article-excerpt">
+                                        ریزش مو می‌تواند دلایل مختلفی داشته باشد؛ از استرس گرفته تا کمبود ویتامین. با علل و درمان‌های موثر ریزش مو آشنا شوید...
+                                    </p>
+                                    <a href="#!" class="article-read-more">
+                                        ادامه مطلب
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+    
+                        <!-- مقاله ۶ -->
+                        <div class="swiper-slide h-auto px-2.5">
+                            <article class="article-card">
+                                <div class="article-card-image">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmPfaqdZPH_MDSDuP5K7GJObOlOUKXSvjM8zZtOf34nG0qMBXhViX73TU&s=10" alt="بوتاکس مو">
+                                    <span class="article-category-badge">احیا مو</span>
+                                </div>
+                                <div class="article-card-body">
+                                    <div class="article-meta">
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            ۲۰ خرداد ۱۴۰۵
+                                        </span>
+                                        <span class="article-meta-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            ۶ دقیقه مطالعه
+                                        </span>
+                                    </div>
+                                    <h3 class="article-title">بوتاکس مو؛ معجزه‌ای برای موهای آسیب‌دیده</h3>
+                                    <p class="article-excerpt">
+                                        بوتاکس مو یکی از جدیدترین روش‌های احیای موهای آسیب‌دیده است. با مزایا، نحوه انجام و ماندگاری این روش آشنا شوید...
+                                    </p>
+                                    <a href="#!" class="article-read-more">
+                                        ادامه مطلب
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+    
+                    </div>
+                    <div class="swiper-pagination !bottom-0"></div>
+                </div>
+    
+                <!-- دکمه‌های ناوبری -->
+                <div class="swiper-button-next !text-[#5b6b46] ">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </div>
+                <div class="swiper-button-prev !text-[#5b6b46] ">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </div>
+            </div>
+    
+            <!-- دکمه‌های پایین -->
+            <div class="text-center mt-14 flex flex-wrap items-center justify-center gap-4">
+                <a href="#!" class="inline-flex items-center gap-2.5 bg-[#5b6b46] text-white px-8 py-3 rounded-xl text-sm font-medium hover:bg-[#4a5a36] transition-all duration-300 shadow-lg shadow-[#5b6b46]/25 hover:shadow-[#5b6b46]/40 hover:-translate-y-0.5">
+                    <i class="fas fa-newspaper"></i>
+                    مشاهده همه مقالات
+                    <i class="fas fa-arrow-left text-xs"></i>
+                </a>
+               
             </div>
         </div>
     </section>
-
-        <!-- بخش  چرا من ؟ -->
-
-
+    <!-- چرا من؟ -->
     <section class="py-8 px-6">
         <div class="max-w-7xl mx-auto bg-[#f9f7f4] rounded-2xl p-6 md:p-8 shadow-sm">
             <div class="flex flex-col md:flex-row items-stretch justify-between gap-8 md:gap-4 text-right">
-                
-                <!-- بخش اول (سمت راست در دسکتاپ): عنوان اصلی -->
                 <div class="flex flex-col justify-center space-y-2 md:w-1/4 md:pl-6">
                     <h3 class="text-xl md:text-2xl font-bold text-[#2b2b2b]">چرا من؟</h3>
-                    <p class="text-xs md:text-sm text-gray-500 leading-relaxed">
-                        هدف من، زیبایی سالم و ماندگار شماست
-                    </p>
+                    <p class="text-xs md:text-sm text-gray-500 leading-relaxed">هدف من، زیبایی سالم و ماندگار شماست</p>
                 </div>
-    
-                <!-- خط جداکننده عمودی (فقط در دسکتاپ نمایش داده می‌شود) -->
                 <div class="hidden md:block w-px bg-gray-200 self-stretch my-2"></div>
-    
-                <!-- بخش دوم: ویژگی‌ها (۳ ستون در دسکتاپ) -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-4 items-center flex-1 md:pr-6">
-                    
-                    <!-- ویژگی اول: مشاوره تخصصی -->
                     <div class="flex items-center md:justify-center gap-4 flex-row-reverse sm:flex-row">
-                        <!-- متن ویژگی -->
                         <div class="space-y-1 flex-1 sm:text-left md:text-right">
                             <h4 class="font-bold text-sm md:text-base text-[#2b2b2b]">مشاوره تخصصی</h4>
                             <p class="text-xs text-gray-500 leading-relaxed">ارائه بهترین مشاوره مناسب با موی شما</p>
                         </div>
-                        <!-- آیکون دایره‌ای -->
                         <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center border border-gray-100 shrink-0 shadow-sm text-[#5b6b46]">
-                            <!-- آیکون برچسب/قیچی یا لوسیون -->
-                            <svg class="w-7 h-7 stroke-current" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M7 7h.01M4 11h16M10 11v8m4-8v8M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
+                            <svg class="w-7 h-7 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M7 7h.01M4 11h16M10 11v8m4-8v8M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                         </div>
                     </div>
-    
-                    <!-- ویژگی دوم: تجربه و تخصص -->
                     <div class="flex items-center md:justify-center gap-4 flex-row-reverse sm:flex-row">
                         <div class="space-y-1 flex-1 sm:text-left md:text-right">
                             <h4 class="font-bold text-sm md:text-base text-[#2b2b2b]">تجربه و تخصص</h4>
                             <p class="text-xs text-gray-500 leading-relaxed">سال‌ها تجربه در زمینه رنگ و درمان مو</p>
                         </div>
                         <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center border border-gray-100 shrink-0 shadow-sm text-[#5b6b46]">
-                            <!-- آیکون تار مو/برگ/کاسه رنگ -->
-                            <svg class="w-7 h-7 stroke-current" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
-                            </svg>
+                            <svg class="w-7 h-7 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" /></svg>
                         </div>
                     </div>
-    
-                    <!-- ویژگی سوم: رضایت مشتریان -->
                     <div class="flex items-center md:justify-center gap-4 flex-row-reverse sm:flex-row">
                         <div class="space-y-1 flex-1 sm:text-left md:text-right">
                             <h4 class="font-bold text-sm md:text-base text-[#2b2b2b]">رضایت مشتریان</h4>
                             <p class="text-xs text-gray-500 leading-relaxed">اولویت من، رضایت و اعتماد شماست</p>
                         </div>
                         <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center border border-gray-100 shrink-0 shadow-sm text-[#5b6b46]">
-                            <!-- آیکون ستاره -->
-                            <svg class="w-7 h-7 stroke-current" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                            </svg>
+                            <svg class="w-7 h-7 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
                         </div>
                     </div>
-    
                 </div>
-    
             </div>
         </div>
+        <span id="user__coments"></span>
     </section>
 
-
-    <!-- بخش  نظرات مشتریان -->
+    <!-- نظرات مشتریان -->
     <section class="py-16 bg-[#f9f7f4]">
         <div class="container mx-auto px-6">
-            
             <div class="text-center mb-12">
                 <h2 class="text-2xl md:text-3xl font-bold text-[#2b2b2b]">نظرات مشتریان</h2>
                 <div class="w-16 h-1 bg-[#5b6b46] mx-auto mt-3 rounded-full opacity-40"></div>
             </div>
-    
             <div class="relative max-w-6xl mx-auto px-4">
-                
                 <div class="swiper testimonial-slider overflow-hidden">
-                    <div class="swiper-wrapper pb-14"> <div class="swiper-slide h-auto">
+                    <div class="swiper-wrapper pb-14">
+                        <div class="swiper-slide h-auto">
                             <div class="relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-full group hover:shadow-md transition-shadow duration-300">
-                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">“</span>
+                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">"</span>
                                 <div class="space-y-4">
-                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">
-                                        تجربه‌ی بی‌نظیری بود، هم کار با دقت و هم برخوردشون عالیه. حتماً دوباره مراجعه می‌کنم.
-                                    </p>
+                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">تجربه‌ی بی‌نظیری بود، هم کار با دقت و هم برخوردشون عالیه. حتماً دوباره مراجعه می‌کنم.</p>
                                 </div>
                                 <div class="flex items-center justify-between mt-8 pt-4 border-t border-gray-50">
-                                    <div class="flex items-center gap-0.5 text-amber-400">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                    </div>
+                                    <div class="flex items-center gap-0.5 text-amber-400"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                     <div class="flex items-center gap-3">
                                         <span class="text-sm font-semibold text-[#2b2b2b]">نرگس رضایی</span>
                                         <div class="w-11 h-11 rounded-full overflow-hidden bg-gray-200 border-2 border-[#5b6b46]/20">
-                                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=120" alt="نرگس رضایی" class="w-full h-full object-cover">
+                                            <img src="https://recap.ir/wp-content/uploads/2024/12/%D8%B9%DA%A9%D8%B3-%D8%AF%D8%AE%D8%AA%D8%B1-%DA%A9%DB%8C%D9%88%D8%AA-%D9%88%D8%A7%D9%82%D8%B9%DB%8C%DB%B5.jpg" alt="نرگس رضایی" class="w-full h-full object-cover">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
                         <div class="swiper-slide h-auto">
                             <div class="relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-full group hover:shadow-md transition-shadow duration-300">
-                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">“</span>
+                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">"</span>
                                 <div class="space-y-4">
-                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">
-                                        رنگ و لایتی که برام انجام دادید خیلی طبیعی و شیک شد. دقیقاً همون چیزی بود که می‌خواستم، ممنونم!
-                                    </p>
+                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">رنگ و لایتی که برام انجام دادید خیلی طبیعی و شیک شد. دقیقاً همون چیزی بود که می‌خواستم، ممنونم!</p>
                                 </div>
                                 <div class="flex items-center justify-between mt-8 pt-4 border-t border-gray-50">
-                                    <div class="flex items-center gap-0.5 text-amber-400">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                    </div>
+                                    <div class="flex items-center gap-0.5 text-amber-400"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                     <div class="flex items-center gap-3">
                                         <span class="text-sm font-semibold text-[#2b2b2b]">سارا محمدی</span>
                                         <div class="w-11 h-11 rounded-full overflow-hidden bg-gray-200 border-2 border-[#5b6b46]/20">
-                                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120" alt="سارا محمدی" class="w-full h-full object-cover">
+                                            <img src="https://cdn.nody.ir/files/2024/01/24/nody-%D8%B9%DA%A9%D8%B3-%D8%B7%D8%A8%DB%8C%D8%B9%DB%8C-%D8%AF%D8%AE%D8%AA%D8%B1-1706065508.jpg" alt="سارا محمدی" class="w-full h-full object-cover">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
                         <div class="swiper-slide h-auto">
                             <div class="relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-full group hover:shadow-md transition-shadow duration-300">
-                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">“</span>
+                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">"</span>
                                 <div class="space-y-4">
-                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">
-                                        بهترین کراتینی بود که تا حالا انجام دادم. موهام هنوز بعد از ۷ ماه صاف، نرم و بسیار عالیه!
-                                    </p>
+                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">بهترین کراتینی بود که تا حالا انجام دادم. موهام هنوز بعد از ۷ ماه صاف، نرم و بسیار عالیه!</p>
                                 </div>
                                 <div class="flex items-center justify-between mt-8 pt-4 border-t border-gray-50">
-                                    <div class="flex items-center gap-0.5 text-amber-400">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                    </div>
+                                    <div class="flex items-center gap-0.5 text-amber-400"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                     <div class="flex items-center gap-3">
                                         <span class="text-sm font-semibold text-[#2b2b2b]">مریم احمدی</span>
                                         <div class="w-11 h-11 rounded-full overflow-hidden bg-gray-200 border-2 border-[#5b6b46]/20">
-                                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=120" alt="مریم احمدی" class="w-full h-full object-cover">
+                                            <img src="https://golimood.com/wp-content/uploads/2024/01/aks-dokhtar-khoshgel-thrani-baraye-porofail-26.jpg" alt="مریم احمدی" class="w-full h-full object-cover">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
                         <div class="swiper-slide h-auto">
                             <div class="relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-full group hover:shadow-md transition-shadow duration-300">
-                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">“</span>
+                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">"</span>
                                 <div class="space-y-4">
-                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">
-                                        برخورد پرسنل فوق‌العاده محترمانه بود و مواد استفاده شده کیفیت خیلی بالایی داشت. موهام اصلاً آسیب ندید.
-                                    </p>
+                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">تجربه‌ی بی‌نظیری بود، هم کار با دقت و هم برخوردشون عالیه. حتماً دوباره مراجعه می‌کنم.</p>
                                 </div>
                                 <div class="flex items-center justify-between mt-8 pt-4 border-t border-gray-50">
-                                    <div class="flex items-center gap-0.5 text-amber-400">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                    </div>
+                                    <div class="flex items-center gap-0.5 text-amber-400"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                     <div class="flex items-center gap-3">
-                                        <span class="text-sm font-semibold text-[#2b2b2b]">نیلوفر کریمی</span>
+                                        <span class="text-sm font-semibold text-[#2b2b2b]">نرگس رضایی</span>
                                         <div class="w-11 h-11 rounded-full overflow-hidden bg-gray-200 border-2 border-[#5b6b46]/20">
-                                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" alt="نیلوفر کریمی" class="w-full h-full object-cover">
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqeeBXyTFlBO_iPYTSlbirnPFZ6-jF_n1qbXiibOkkC59BBXZKxYB9GPdf&s=10" alt="نرگس رضایی" class="w-full h-full object-cover">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
                         <div class="swiper-slide h-auto">
                             <div class="relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-full group hover:shadow-md transition-shadow duration-300">
-                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">“</span>
+                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">"</span>
                                 <div class="space-y-4">
-                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">
-                                        تکنیک فر دائمشون فوق‌العاده‌ست! الان دو ماهه گذشته و فر موهام تکون نخورده و وز هم نشده. مرسی ازتون.
-                                    </p>
+                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">رنگ و لایتی که برام انجام دادید خیلی طبیعی و شیک شد. دقیقاً همون چیزی بود که می‌خواستم، ممنونم!</p>
                                 </div>
                                 <div class="flex items-center justify-between mt-8 pt-4 border-t border-gray-50">
-                                    <div class="flex items-center gap-0.5 text-amber-400">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                    </div>
+                                    <div class="flex items-center gap-0.5 text-amber-400"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                     <div class="flex items-center gap-3">
-                                        <span class="text-sm font-semibold text-[#2b2b2b]">مهسا علوی</span>
+                                        <span class="text-sm font-semibold text-[#2b2b2b]">سارا محمدی</span>
                                         <div class="w-11 h-11 rounded-full overflow-hidden bg-gray-200 border-2 border-[#5b6b46]/20">
-                                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=120" alt="مهسا علوی" class="w-full h-full object-cover">
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxIhSCUDR6npg_K6ZokmOMKIkuCGgcwd6tVDlxV-xTdw&s=10" alt="سارا محمدی" class="w-full h-full object-cover">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
                         <div class="swiper-slide h-auto">
                             <div class="relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between h-full group hover:shadow-md transition-shadow duration-300">
-                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">“</span>
+                                <span class="absolute top-4 left-6 text-6xl font-serif text-[#5b6b46]/10 select-none pointer-events-none">"</span>
                                 <div class="space-y-4">
-                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">
-                                        مشاوره قبل از کارشون عالی بود. دقیقاً متناسب با جنس موهام تکنیک احیا رو پیشنهاد دادن و کاملاً راضی‌ام.
-                                    </p>
+                                    <p class="text-[#6b6b6b] text-sm md:text-base leading-relaxed text-right">بهترین کراتینی بود که تا حالا انجام دادم. موهام هنوز بعد از ۷ ماه صاف، نرم و بسیار عالیه!</p>
                                 </div>
                                 <div class="flex items-center justify-between mt-8 pt-4 border-t border-gray-50">
-                                    <div class="flex items-center gap-0.5 text-amber-400">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                    </div>
+                                    <div class="flex items-center gap-0.5 text-amber-400"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                     <div class="flex items-center gap-3">
-                                        <span class="text-sm font-semibold text-[#2b2b2b]">آتوسا راد</span>
+                                        <span class="text-sm font-semibold text-[#2b2b2b]">مریم احمدی</span>
                                         <div class="w-11 h-11 rounded-full overflow-hidden bg-gray-200 border-2 border-[#5b6b46]/20">
-                                            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=120" alt="آتوسا راد" class="w-full h-full object-cover">
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCPDUqkwztf2SS4OTWXnAOpdkCPuqh6C7wHTZbkO2K6U0YuG2AHBvh1lw&s=10" alt="مریم احمدی" class="w-full h-full object-cover">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
                     </div>
-    
                     <div class="swiper-pagination"></div>
                 </div>
-    
                 <div class="swiper-button-next !text-[#5b6b46] after:!text-2xl hidden md:flex"></div>
                 <div class="swiper-button-prev !text-[#5b6b46] after:!text-2xl hidden md:flex"></div>
             </div>
         </div>
     </section>
 
-
-
-
-
-    
-
-
-
-
     <!-- فوتر -->
     <footer class="bg-[#2b2b2b] text-white pt-16 pb-8 px-6 mt-12">
         <div class="max-w-7xl mx-auto space-y-12">
-            
+            <!-- بنر رزرو نوبت -->
             <div class="bg-[#5b6b46] p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 px-8 shadow-lg">
                 <div class="text-right space-y-1">
                     <h4 class="text-lg font-bold">همین حالا نوبت خود را آنلاین رزرو کنید</h4>
@@ -530,187 +1077,264 @@
                 </div>
                 <a href="tel:09121234567" class="bg-white text-[#5b6b46] hover:bg-gray-100 transition-colors px-8 py-3.5 rounded-full text-lg font-extrabold tracking-wider flex items-center gap-2 shadow-md">
                     <span class="inline-block" dir="ltr">0912 123 4567</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                    </svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                 </a>
             </div>
     
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-right border-b border-white/10 pb-12">
-                
-                <div class="space-y-6">
+            <!-- محتوای اصلی فوتر -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 text-right border-b border-white/10 pb-12">
+                <!-- ستون اول: لوگو و توضیحات -->
+                <div class="space-y-6 md:col-span-1">
                     <div class="flex items-center gap-2">
-                        <span class="text-xl font-black text-[#5b6b46] bg-white px-3 py-1 rounded-lg">لوگو</span>
-                        <h3 class="text-lg font-bold">سالن زیبایی الی</h3>
+                        <img src="public/images/elham.png" class="w-10" alt="">
+                        <h3 class="text-lg font-bold">سالن زیبایی الهام</h3>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
-                        ارائه جدیدترین و حرفه‌ای‌ترین خدمات رنگ، لایت، کراتین و فر دائم مو با استفاده از بهترین مواد روز دنیا و کادر مجرب در محیطی آرام و بهداشتی. زیبایی و سلامت موهای شما اولویت ماست.
-                    </p>
-                    <div class="flex justify-start gap-4 pt-2">
-                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#5b6b46] hover:text-white transition-all duration-300" title="اینستاگرام">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01"></path></svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#5b6b46] hover:text-white transition-all duration-300" title="واتس‌اپ">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#5b6b46] hover:text-white transition-all duration-300" title="تلگرام">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                        </a>
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-sm">ارائه جدیدترین و حرفه‌ای‌ترین خدمات رنگ، لایت، کراتین و فر دائم مو با استفاده از بهترین مواد روز دنیا و کادر مجرب در محیطی آرام و بهداشتی.</p>
+                    
+                    <!-- شبکه‌های اجتماعی با آیکون‌های زیبا -->
+                    <div class="pt-2">
+                        <p class="text-xs text-gray-500 mb-3">ما را در شبکه‌های اجتماعی دنبال کنید</p>
+                        <div class="flex justify-start gap-3">
+                            <a href="#" class="group relative w-11 h-11 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#5b6b46] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#5b6b46]/20 border border-white/5 hover:border-[#5b6b46]">
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                </svg>
+                                <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-[10px] bg-black/80 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">توییتر</span>
+                            </a>
+                            <a href="#" class="group relative w-11 h-11 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#5b6b46] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#5b6b46]/20 border border-white/5 hover:border-[#5b6b46]">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                                </svg>
+                                <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-[10px] bg-black/80 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">اینستاگرام</span>
+                            </a>
+                            <a href="#" class="group relative w-11 h-11 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#5b6b46] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#5b6b46]/20 border border-white/5 hover:border-[#5b6b46]">
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                </svg>
+                                <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-[10px] bg-black/80 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">واتساپ</span>
+                            </a>
+                            <a href="#" class="group relative w-11 h-11 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#5b6b46] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#5b6b46]/20 border border-white/5 hover:border-[#5b6b46]">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                                </svg>
+                                <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-[10px] bg-black/80 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">تلگرام</span>
+                            </a>
+                            <a href="#" class="group relative w-11 h-11 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#5b6b46] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#5b6b46]/20 border border-white/5 hover:border-[#5b6b46]">
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                                <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-[10px] bg-black/80 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">لینکدین</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
     
-                <div class="space-y-6 md:mr-12">
+                <!-- ستون دوم: دسترسی سریع -->
+                <div class="space-y-6 md:col-span-1">
                     <h3 class="text-lg font-bold text-gray-300 border-r-4 border-[#5b6b46] pr-3">دسترسی سریع</h3>
                     <ul class="space-y-3 text-sm text-gray-400">
                         <li><a href="#" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> صفحه اصلی</a></li>
-                        <li><a href="#" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> درباره من</a></li>
-                        <li><a href="#" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> خدمات تخصصی مو</a></li>
-                        <li><a href="#" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> گالری نمونه کارها</a></li>
-                        <li><a href="#" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> نظرات مشتریان</a></li>
-                        <li><a href="#" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> تماس با ما</a></li>
+                        <li><a href="./src/pages/AboutUs/aboutUs.html" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> درباره من</a></li>
+                        <li><a href="#services" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> خدمات تخصصی مو</a></li>
+                        <li><a href="#portfolio" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> گالری نمونه کارها</a></li>
+                        <li><a href="#articles" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> مقالات</a></li>
+                        <li><a href="./src/pages/ContactUs/ContactUs.html" class="hover:text-[#5b6b46] transition-colors flex items-center gap-2"><span>←</span> تماس با ما</a></li>
                     </ul>
                 </div>
     
-                <div class="space-y-6">
+                <!-- ستون سوم: اطلاعات ارتباطی -->
+                <div class="space-y-6 md:col-span-1">
                     <h3 class="text-lg font-bold text-gray-300 border-r-4 border-[#5b6b46] pr-3">اطلاعات ارتباطی</h3>
                     <div class="space-y-4 text-sm text-gray-400">
                         <div class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-[#5b6b46] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <svg class="w-5 h-5 text-[#5b6b46] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             <p class="leading-relaxed">تهران، شهرک غرب، خیابان فخارمقدم، جنب مجتمع تجاری، پلاک ۱۲۴</p>
                         </div>
                         <div class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-[#5b6b46] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <svg class="w-5 h-5 text-[#5b6b46] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                             <span dir="ltr">۰۲۱-۸۸۸۸۸۸۸۸</span>
                             <span class="text-white/30">|</span>
                             <span dir="ltr">۰۹۱۲ ۱۲۳ ۴۵۶۷</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-[#5b6b46] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-5 h-5 text-[#5b6b46] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span>ساعت کاری: همه روزه از ۱۰ صبح تا ۸ شب</span>
                         </div>
                     </div>
                 </div>
     
+                <!-- ستون چهارم: عضویت در خبرنامه -->
+               
             </div>
     
+            <!-- پایین فوتر -->
             <div class="flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 gap-4 pt-2">
                 <p>طراحی و توسعه داده شده با ❤️</p>
                 <p>تمامی حقوق مادی و معنوی این وب‌سایت محفوظ است.</p>
             </div>
         </div>
     </footer>
-    <!-- اسکریپت منوی همبرگر -->
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="src/components/app.js"></script>
 
+    <!-- اسکریپت فیلتر نمونه کارها -->
     <script>
-        // ==========================================
-        // ۱. مدیریت منوی همبرگری و اورلی موبایل
-        // ==========================================
-        const menuToggle = document.getElementById('menuToggle');
-        const closeMenu = document.getElementById('closeMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const mobileLinks = document.querySelectorAll('#mobileMenu a, #mobileMenu button'); // انتخاب تمام لینک‌ها و دکمه‌های داخل منو
-        let isMenuOpen = false;
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            const resultCount = document.querySelector('#resultCount span');
 
-        function openMenu() {
-            if (!mobileMenu || !menuOverlay) return;
-            mobileMenu.classList.remove('translate-x-full');
-            mobileMenu.classList.add('menu-open');
-            menuOverlay.classList.remove('opacity-0', 'pointer-events-none');
-            menuOverlay.classList.add('opacity-100', 'pointer-events-auto');
-            document.body.style.overflow = 'hidden';
-            isMenuOpen = true;
-        }
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
 
-        function closeMenuFunc() {
-            if (!mobileMenu || !menuOverlay) return;
-            mobileMenu.classList.add('translate-x-full');
-            mobileMenu.classList.remove('menu-open');
-            menuOverlay.classList.add('opacity-0', 'pointer-events-none');
-            menuOverlay.classList.add('opacity-100', 'pointer-events-auto'); // اصلاح کلاس منطقی اورلی
-            menuOverlay.classList.remove('opacity-100', 'pointer-events-auto');
-            document.body.style.overflow = '';
-            isMenuOpen = false;
-        }
+                    const filterValue = this.getAttribute('data-filter');
+                    let visibleCount = 0;
 
-        // شنونده‌های رویداد کلیک برای منو
-        if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-                if (!isMenuOpen) openMenu(); else closeMenuFunc();
+                    portfolioItems.forEach(item => {
+                        const category = item.getAttribute('data-category');
+
+                        if (filterValue === 'all' || category === filterValue) {
+                            item.classList.remove('hidden');
+                            item.classList.add('show');
+                            visibleCount++;
+                            setTimeout(() => { item.classList.remove('show'); }, 500);
+                        } else {
+                            item.classList.add('hidden');
+                            item.classList.remove('show');
+                        }
+                    });
+
+                    if (resultCount) resultCount.textContent = visibleCount;
+                });
+            });
+        });
+    </script>
+
+    <!-- اسکریپت رزرو نوبت -->
+    <script>
+        const services = [
+            { id: 'keratin', name: 'کراتین و احیا', icon: '✨', deposit: 500000, description: 'صافی و درخشش مو' },
+            { id: 'curl', name: 'فر دائم', icon: '💇‍♀️', deposit: 400000, description: 'فر دائم با کیفیت' },
+            { id: 'color', name: 'رنگ مو', icon: '🎨', deposit: 300000, description: 'رنگ با بهترین برندها' },
+            { id: 'highlight', name: 'هایلایت و لایت', icon: '✨', deposit: 450000, description: 'لایت و بالیاژ حرفه‌ای' },
+            { id: 'botox', name: 'بوتاکس مو', icon: '💆‍♀️', deposit: 350000, description: 'ترمیم و احیای مو' },
+            { id: 'repair', name: 'ترمیم مو', icon: '✂️', deposit: 250000, description: 'درمان و تقویت مو' }
+        ];
+
+        let selectedService = null;
+
+        function renderServices() {
+            const servicesList = document.getElementById('servicesList');
+            servicesList.innerHTML = services.map(service => `
+                <div class="service-card bg-white border-2 border-gray-200 rounded-xl p-4 flex items-center gap-4" 
+                     data-service-id="${service.id}" data-deposit="${service.deposit}" data-name="${service.name}">
+                    <div class="text-3xl">${service.icon}</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-[#2b2b2b]">${service.name}</h4>
+                        <p class="text-xs text-[#6b6b6b] mt-1">${service.description}</p>
+                        <p class="text-sm font-bold text-[#5b6b46] mt-2">بیعانه: ${service.deposit.toLocaleString()} تومان</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedService = {
+                        id: this.dataset.serviceId,
+                        name: this.dataset.name,
+                        deposit: parseInt(this.dataset.deposit)
+                    };
+                });
             });
         }
 
-        if (closeMenu) closeMenu.addEventListener('click', closeMenuFunc);
-        if (menuOverlay) menuOverlay.addEventListener('click', closeMenuFunc);
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
 
-        // بستن منو در صورت کلیک روی لینک‌های داخل منو (مهم برای رفتن به بخش‌های مختلف صفحه)
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', closeMenuFunc);
+            if (!selectedService) { alert('لطفاً یک خدمت را انتخاب کنید'); return; }
+
+            document.getElementById('modalFullName').textContent = `${firstName} ${lastName}`;
+            document.getElementById('modalPhone').textContent = phoneNumber;
+            document.getElementById('modalService').textContent = selectedService.name;
+            document.getElementById('modalAmount').textContent = selectedService.deposit.toLocaleString();
+            document.getElementById('paymentModal').classList.add('active');
         });
 
-        // بستن منو با کلید Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && isMenuOpen) {
-                closeMenuFunc();
-            }
-        });
+        document.getElementById('closePaymentModal').addEventListener('click', () => document.getElementById('paymentModal').classList.remove('active'));
+        document.getElementById('cancelButton').addEventListener('click', () => document.getElementById('paymentModal').classList.remove('active'));
+        document.getElementById('paymentModal').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
+        document.getElementById('payButton').addEventListener('click', () => alert('در حال انتقال به درگاه پرداخت...'));
 
-        // ==========================================
-        // ۲. تغییر افکت هدر هنگام اسکرول
-        // ==========================================
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (!header) return;
-            
-            if (window.scrollY > 50) {
-                header.classList.add('shadow-lg');
-                header.classList.remove('shadow-sm');
-            } else {
-                header.classList.remove('shadow-lg');
-                header.classList.add('shadow-sm');
-            }
-        });
+        renderServices();
+    </script>
 
-        // ==========================================
-        // ۳. راه‌اندازی و تنظیمات اسلایدر Swiper (نظرات)
-        // ==========================================
+    <!-- ===== اسکریپت اسلایدر مقالات ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // مطمئن می‌شویم المان اسلایدر در صفحه وجود دارد تا خطا ندهد
-            if (document.querySelector('.testimonial-slider')) {
-                const swiper = new Swiper('.testimonial-slider', {
-                    rtl: true, // سازگاری کامل با جهت راست‌چین فارسی
-                    slidesPerView: 1,
-                    slidesPerGroup: 1,
-                    spaceBetween: 24,
-                    loop: true,
-                    
-                    // سیستم ریسپانسیو (Breakpoints)
-                    breakpoints: {
-                        768: { // تبلت
-                            slidesPerView: 2,
-                            slidesPerGroup: 2,
-                        },
-                        1024: { // دسکتاپ (نمایش ۳ تایی و حرکت ۳ تایی)
-                            slidesPerView: 3,
-                            slidesPerGroup: 3,
+            const swiper = new Swiper('.articles-slider', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                    dynamicBullets: false,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 24,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                },
+                // جلوگیری از خطا در صورت نبود دکمه‌ها در موبایل
+                on: {
+                    init: function () {
+                        const nextBtn = document.querySelector('.swiper-button-next');
+                        const prevBtn = document.querySelector('.swiper-button-prev');
+                        if (window.innerWidth < 768) {
+                            if (nextBtn) nextBtn.style.display = 'none';
+                            if (prevBtn) prevBtn.style.display = 'none';
                         }
                     },
-                    
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                        dynamicBullets: true,
-                    },
-                    
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                    
-                    grabCursor: true,
-                });
-            }
+                    resize: function () {
+                        const nextBtn = document.querySelector('.swiper-button-next');
+                        const prevBtn = document.querySelector('.swiper-button-prev');
+                        if (window.innerWidth < 768) {
+                            if (nextBtn) nextBtn.style.display = 'none';
+                            if (prevBtn) prevBtn.style.display = 'none';
+                        } else {
+                            if (nextBtn) nextBtn.style.display = 'flex';
+                            if (prevBtn) prevBtn.style.display = 'flex';
+                        }
+                    }
+                }
+            });
         });
     </script>
 </body>

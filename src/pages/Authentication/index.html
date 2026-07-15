@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود به پنل مدیریت - سالن زیبایی</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap');
+        body { font-family: 'Vazirmatn', sans-serif; }
+
+        /* انیمیشن‌های پس‌زمینه */
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-40px, 40px); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        .blob-1 { animation: float1 20s ease-in-out infinite; }
+        .blob-2 { animation: float2 25s ease-in-out infinite; }
+        .blob-3 { animation: pulse-slow 15s ease-in-out infinite; }
+
+        /* انیمیشن ورود کارت */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-animate { animation: slideUp 0.6s ease-out; }
+
+        /* انیمیشن آیکون سپر */
+        @keyframes shieldPop {
+            0% { transform: scale(0) rotate(-180deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        .shield-icon { animation: shieldPop 0.6s ease-out 0.3s both; }
+
+        /* انیمیشن پیام‌ها */
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; padding: 0 1rem; }
+            to { opacity: 1; max-height: 200px; padding: 1rem; }
+        }
+        .message-show { animation: slideDown 0.4s ease-out forwards; }
+
+        /* انیمیشن دکمه */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spinner { animation: spin 1s linear infinite; }
+
+        /* استایل فیلدها */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #5b6b46;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(91, 107, 70, 0.1);
+        }
+        .form-input.error {
+            border-color: #fca5a5;
+            background: #fef2f2;
+        }
+        .form-input.error:focus {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        /* چک‌باکس سفارشی */
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .custom-checkbox.checked {
+            background: #5b6b46;
+            border-color: #5b6b46;
+        }
+
+        /* گرادیان هدر */
+        .header-gradient {
+            background: linear-gradient(135deg, #5b6b46 0%, #4a5a36 50%, #3d4a2d 100%);
+        }
+
+        /* پس‌زمینه اصلی */
+        .main-bg {
+            background: linear-gradient(135deg, #f0f4eb 0%, #fcfbfa 50%, #f9f7f4 100%);
+        }
+
+        /* افکت شیشه‌ای */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="main-bg min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+
+    <!-- المان‌های تزئینی پس‌زمینه -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="blob-1 absolute top-10 right-10 w-72 h-72 bg-[#5b6b46]/10 rounded-full blur-3xl"></div>
+        <div class="blob-2 absolute bottom-10 left-10 w-96 h-96 bg-[#5b6b46]/5 rounded-full blur-3xl"></div>
+        <div class="blob-3 absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-[#5b6b46]/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- کارت اصلی -->
+    <div class="card-animate relative w-full max-w-md z-10">
+        <div class="glass-card rounded-3xl shadow-2xl border border-white/60 overflow-hidden">
+            
+            <!-- هدر با گرادیان -->
+            <div class="header-gradient relative p-8 text-white overflow-hidden">
+                <!-- الگوی تزئینی -->
+                <div class="absolute inset-0 opacity-10">
+                    <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)"/>
+                    </svg>
+                </div>
+
+                <div class="relative z-10">
+                    <!-- آیکون سپر -->
+                    <div class="shield-icon w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 mx-auto border border-white/30 shadow-lg">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+
+                    <h1 class="text-2xl font-black text-center mb-2">پنل مدیریت</h1>
+                    <p class="text-center text-white/80 text-sm flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                        برای ورود، اطلاعات خود را وارد کنید
+                    </p>
+                </div>
+            </div>
+
+            <!-- فرم -->
+            <form id="loginForm" class="p-8 space-y-5">
+                
+                <!-- پیام خطا -->
+                <div id="errorMessage" class="hidden bg-red-50 border-r-4 border-red-500 rounded-lg p-4 flex items-start gap-3">
+                    <svg class="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-sm text-red-700 font-medium" id="errorText"></p>
+                </div>
+
+                <!-- پیام موفقیت -->
+                <div id="successMessage" class="hidden bg-emerald-50 border-r-4 border-emerald-500 rounded-lg p-4 flex items-start gap-3">
+                    <svg class="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-sm text-emerald-700 font-medium">ورود موفق! در حال انتقال به پنل...</p>
+                </div>
+
+                <!-- فیلد ایمیل -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-bold text-[#2b2b2b]">ایمیل</label>
+                    <div class="relative">
+                        <svg class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="admin@example.com"
+                            dir="ltr"
+                            class="form-input w-full pr-12 pl-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm"
+                        >
+                    </div>
+                    <p id="emailError" class="hidden text-xs text-red-500 flex items-center gap-1 mr-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span></span>
+                    </p>
+                </div>
+
+                <!-- فیلد رمز عبور -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-bold text-[#2b2b2b]">رمز عبور</label>
+                    <div class="relative">
+                        <svg class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="••••••••"
+                            dir="ltr"
+                            class="form-input w-full pr-12 pl-12 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm"
+                        >
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#5b6b46] transition-colors"
+                        >
+                            <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <p id="passwordError" class="hidden text-xs text-red-500 flex items-center gap-1 mr-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span></span>
+                    </p>
+                </div>
+
+                <!-- مرا به خاطر بسپار و فراموشی رمز -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2 cursor-pointer group">
+                        <div id="rememberCheckbox" class="custom-checkbox">
+                            <svg class="w-3 h-3 text-white hidden" id="checkIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <span class="text-sm text-gray-600 group-hover:text-[#2b2b2b] transition-colors">مرا به خاطر بسپار</span>
+                    </label>
+
+                    <a href="#" class="text-sm text-[#5b6b46] hover:text-[#4a5a36] font-medium transition-colors">
+                        فراموشی رمز؟
+                    </a>
+                </div>
+
+                <!-- دکمه ورود -->
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="w-full py-4 rounded-xl font-bold text-white text-base flex items-center justify-center gap-2 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    style="background: linear-gradient(135deg, #5b6b46 0%, #4a5a36 100%); box-shadow: 0 10px 25px rgba(91, 107, 70, 0.3);"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span id="btnText">ورود به پنل</span>
+                </button>
+
+                <!-- اطلاعات تست -->
+                <div class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">
+                    <p class="text-xs text-blue-700 font-bold mb-2 flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        اطلاعات تست:
+                    </p>
+                    <div class="space-y-1 text-xs text-blue-600 font-mono" dir="ltr">
+                        <p>📧 Email: admin@electroshahr.com</p>
+                        <p>🔒 Password: admin123</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- فوتر -->
+        <p class="text-center text-xs text-gray-500 mt-6">
+            © ۲۰۲۶ تمامی حقوق محفوظ است | طراحی شده با ❤️
+        </p>
+    </div>
+
+    <script>
+        // متغیرهای سراسری
+        let rememberMe = false;
+        let isLoading = false;
+
+        // المان‌ها
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const rememberCheckbox = document.getElementById('rememberCheckbox');
+        const checkIcon = document.getElementById('checkIcon');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const errorText = document.getElementById('errorText');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        // بررسی لاگین بودن کاربر
+        window.addEventListener('DOMContentLoaded', () => {
+            const loggedIn = localStorage.getItem('isLoggedIn');
+            if (loggedIn === 'true') {
+                window.location.href = '/src/pages/panel-admin/';
+            }
+        });
+
+        // نمایش/مخفی کردن رمز عبور
+        togglePasswordBtn.addEventListener('click', () => {
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+
+            if (type === 'text') {
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                `;
+            } else {
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                `;
+            }
+        });
+
+        // چک‌باکس مرا به خاطر بسپار
+        rememberCheckbox.addEventListener('click', () => {
+            rememberMe = !rememberMe;
+            if (rememberMe) {
+                rememberCheckbox.classList.add('checked');
+                checkIcon.classList.remove('hidden');
+            } else {
+                rememberCheckbox.classList.remove('checked');
+                checkIcon.classList.add('hidden');
+            }
+        });
+
+        // اعتبارسنجی ایمیل
+        function validateEmail(email) {
+            if (!email) return 'ایمیل الزامی است';
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'فرمت ایمیل نامعتبر است';
+            return null;
+        }
+
+        // اعتبارسنجی رمز عبور
+        function validatePassword(password) {
+            if (!password) return 'رمز عبور الزامی است';
+            if (password.length < 6) return 'رمز عبور باید حداقل ۶ کاراکتر باشد';
+            return null;
+        }
+
+        // نمایش خطای فیلد
+        function showFieldError(input, errorElement, message) {
+            input.classList.add('error');
+            errorElement.classList.remove('hidden');
+            errorElement.querySelector('span').textContent = message;
+        }
+
+        // مخفی کردن خطای فیلد
+        function hideFieldError(input, errorElement) {
+            input.classList.remove('error');
+            errorElement.classList.add('hidden');
+        }
+
+        // اعتبارسنجی هنگام تایپ
+        emailInput.addEventListener('input', () => {
+            const error = validateEmail(emailInput.value);
+            if (error) {
+                showFieldError(emailInput, emailError, error);
+            } else {
+                hideFieldError(emailInput, emailError);
+            }
+            hideMessage();
+        });
+
+        passwordInput.addEventListener('input', () => {
+            const error = validatePassword(passwordInput.value);
+            if (error) {
+                showFieldError(passwordInput, passwordError, error);
+            } else {
+                hideFieldError(passwordInput, passwordError);
+            }
+            hideMessage();
+        });
+
+        // مخفی کردن پیام خطا
+        function hideMessage() {
+            errorMessage.classList.add('hidden');
+            errorMessage.classList.remove('message-show');
+        }
+
+        // ارسال فرم
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (isLoading) return;
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // اعتبارسنجی
+            const emailErr = validateEmail(email);
+            const passwordErr = validatePassword(password);
+
+            if (emailErr) {
+                showFieldError(emailInput, emailError, emailErr);
+            }
+            if (passwordErr) {
+                showFieldError(passwordInput, passwordError, passwordErr);
+            }
+
+            if (emailErr || passwordErr) return;
+
+            // شروع لودینگ
+            isLoading = true;
+            submitBtn.disabled = true;
+            submitBtn.style.background = '#9ca3af';
+            submitBtn.style.cursor = 'not-allowed';
+            btnText.textContent = 'در حال ورود...';
+            submitBtn.querySelector('svg').outerHTML = `
+                <svg class="w-5 h-5 spinner" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+            `;
+
+            hideMessage();
+
+            try {
+                // شبیه‌سازی درخواست به سرور
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // بررسی اطلاعات (در حالت واقعی با API چک می‌شود)
+                if (email === 'admin@electroshahr.com' && password === 'admin123') {
+                    // موفقیت
+                    successMessage.classList.remove('hidden');
+                    successMessage.classList.add('message-show');
+                    
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+
+                    setTimeout(() => {
+                        window.location.href = '/src/pages/panel-admin/';
+                    }, 1000);
+                } else {
+                    // خطا
+                    errorText.textContent = 'ایمیل یا رمز عبور اشتباه است';
+                    errorMessage.classList.remove('hidden');
+                    errorMessage.classList.add('message-show');
+
+                    // بازگشت به حالت عادی
+                    resetButton();
+                }
+            } catch (err) {
+                errorText.textContent = 'خطا در اتصال به سرور. لطفاً دوباره تلاش کنید';
+                errorMessage.classList.remove('hidden');
+                errorMessage.classList.add('message-show');
+                resetButton();
+            }
+        });
+
+        // بازگشت دکمه به حالت عادی
+        function resetButton() {
+            isLoading = false;
+            submitBtn.disabled = false;
+            submitBtn.style.background = 'linear-gradient(135deg, #5b6b46 0%, #4a5a36 100%)';
+            submitBtn.style.cursor = 'pointer';
+            btnText.textContent = 'ورود به پنل';
+            submitBtn.querySelector('svg').outerHTML = `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                </svg>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مجلهٔ زیتون | مقالات مراقبت پوست و مو</title>
+    <link rel="stylesheet" href="../../output.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap");
+
+      :root {
+        --cream: #fdf8e9;
+        --cream-deep: #f7f0d8;
+        --line: #e9e2c2;
+        --olive: #47572f;
+        --olive-deep: #38451f;
+        --olive-light: #6a7f4a;
+        --sage: #aebd8a;
+        --sage-soft: #dde4c4;
+        --gold: #c69a3b;
+        --gold-soft: #f1e2ba;
+        --ink: #2a2a22;
+        --ink-soft: #746f5c;
+        --shadow-soft: 0 8px 30px rgba(71, 87, 47, 0.08);
+        --shadow-hover: 0 20px 50px rgba(71, 87, 47, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--cream);
+        color: var(--ink);
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+      }
+
+      .branch-mark {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0.5;
+      }
+
+      .card-media {
+        mask-image: radial-gradient(140% 140% at 15% 10%, #000 60%, transparent 100%);
+        -webkit-mask-image: radial-gradient(140% 140% at 15% 10%, #000 60%, transparent 100%);
+        transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1);
+      }
+
+      .ac-card {
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1),
+          box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.3, 1),
+          border-color 0.4s ease;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--line);
+      }
+
+      .ac-card:hover {
+        transform: translateY(-8px) scale(1.01);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--sage);
+      }
+
+      .ac-card:hover .card-media {
+        transform: scale(1.05);
+      }
+
+      .ac-card .card-overlay {
+        background: linear-gradient(to top, rgba(42, 42, 34, 0.7) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .ac-card:hover .card-overlay {
+        opacity: 1;
+      }
+
+      .ac-tag {
+        transition: all 0.25s ease;
+      }
+      .ac-tag:active {
+        transform: scale(0.94);
+      }
+      .ac-tag[aria-pressed="true"] {
+        background-color: var(--olive);
+        border-color: var(--olive);
+        color: #fff;
+        box-shadow: 0 8px 18px rgba(71, 87, 47, 0.28);
+      }
+
+      .article-link {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .article-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--olive);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+        border-radius: 9999px;
+        z-index: 0;
+      }
+
+      .article-link:hover::after {
+        transform: scaleX(1);
+      }
+
+      .article-link span,
+      .article-link svg {
+        position: relative;
+        z-index: 1;
+      }
+
+      .article-link:hover {
+        color: #fff;
+      }
+
+      .link-arrow svg {
+        transition: transform 0.3s ease;
+      }
+      .article-link:hover .link-arrow svg {
+        transform: translateX(-4px);
+      }
+
+      .badge-new {
+        animation: pulse-badge 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-badge {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      .fade-up {
+        animation: fadeUp 0.8s ease both;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .stagger-child {
+        animation: fadeUp 0.6s ease both;
+      }
+
+      .stagger-child:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .stagger-child:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+      .stagger-child:nth-child(3) {
+        animation-delay: 0.19s;
+      }
+      .stagger-child:nth-child(4) {
+        animation-delay: 0.26s;
+      }
+      .stagger-child:nth-child(5) {
+        animation-delay: 0.33s;
+      }
+      .stagger-child:nth-child(6) {
+        animation-delay: 0.40s;
+      }
+
+      ::selection {
+        background: var(--gold-soft);
+        color: var(--olive-deep);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .ac-card,
+        .ac-tag,
+        .link-arrow svg,
+        .card-media,
+        .article-link::after,
+        .card-overlay {
+          transition: none !important;
+        }
+        .ac-card:hover {
+          transform: none !important;
+        }
+        .ac-card:hover .card-media {
+          transform: none !important;
+        }
+        .ac-card:hover .card-overlay {
+          opacity: 0 !important;
+        }
+        .stagger-child {
+          animation: none !important;
+        }
+        .badge-new {
+          animation: none !important;
+        }
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible {
+        outline: 2px solid var(--olive);
+        outline-offset: 3px;
+        border-radius: 6px;
+      }
+
+      #ac-filter-tags::-webkit-scrollbar {
+        height: 4px;
+      }
+      #ac-filter-tags::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      #ac-filter-tags::-webkit-scrollbar-thumb {
+        background: var(--sage);
+        border-radius: 9999px;
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      @media (min-width: 640px) {
+        .grid-container {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .grid-container {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.75rem;
+        }
+      }
+
+      .card-content {
+        padding: 1rem 1.25rem 1.25rem;
+      }
+
+      @media (min-width: 640px) {
+        .card-content {
+          padding: 1.25rem 1.5rem 1.5rem;
+        }
+      }
+
+      /* Latest grid */
+      .latest-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      @media (min-width: 640px) {
+        .latest-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .latest-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.75rem;
+        }
+      }
+    </style>
+  </head>
+  <body dir="rtl" class="min-h-dvh overflow-x-hidden">
+    <!-- SVG Sprite Icons -->
+    <div class="hidden">
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <symbol id="left-arrow" viewBox="0 0 32 32">
+          <path
+            d="m13.28 6.78l-8.5 8.5l-.686.72l.687.72l8.5 8.5l1.44-1.44L7.936 17H28v-2H7.937l6.782-6.78l-1.44-1.44z"
+            fill="currentColor"
+          />
+        </symbol>
+        <symbol id="search-icon" viewBox="0 0 24 24">
+          <path
+            d="M11 19a8 8 0 1 0 0-16a8 8 0 0 0 0 16Zm10 2l-4.35-4.35"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </symbol>
+        <symbol id="calendar-icon" viewBox="0 0 24 24">
+          <path
+            d="M7 3v3M17 3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </symbol>
+        <symbol id="close-icon" viewBox="0 0 24 24">
+          <path
+            d="M18 6 6 18M6 6l12 12"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </symbol>
+        <symbol id="leaf-icon" viewBox="0 0 24 24">
+          <path
+            d="M4 14c0-6 5-10 15-10c0 10-4 15-10 15c-3 0-5-2-5-5Zm0 0c3-3 7-5 12-7"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.6"
+          />
+        </symbol>
+        <symbol id="sparkle-icon" viewBox="0 0 24 24">
+          <path
+            d="M12 2L13.5 9.5L21 11L13.5 12.5L12 20L10.5 12.5L3 11L10.5 9.5L12 2Z"
+            fill="currentColor"
+          />
+        </symbol>
+      </svg>
+    </div>
+
+    <!-- decorative branch -->
+    <svg
+      class="branch-mark -top-6 -left-10 w-64 h-64 text-[var(--sage)]"
+      viewBox="0 0 200 200"
+      fill="none"
+    >
+      <path
+        d="M10 190 C 60 150, 40 90, 100 60 C 140 40, 160 20, 190 10"
+        stroke="currentColor"
+        stroke-width="2"
+      />
+      <path
+        d="M40 150 C 55 140, 60 125, 55 112"
+        stroke="currentColor"
+        stroke-width="1.4"
+      />
+      <path
+        d="M75 100 C 90 92, 96 78, 92 65"
+        stroke="currentColor"
+        stroke-width="1.4"
+      />
+      <path
+        d="M120 55 C 132 46, 136 34, 132 24"
+        stroke="currentColor"
+        stroke-width="1.4"
+      />
+    </svg>
+
+    <main id="articles" class="relative w-full">
+      <!-- Hero -->
+      <header
+        class="relative px-4 sm:px-8 pt-12 sm:pt-16 pb-8 sm:pb-10 max-w-5xl mx-auto text-center fade-up"
+      >
+        <span
+          class="inline-flex items-center gap-2 text-[11px] sm:text-xs font-semibold tracking-wide text-[var(--olive)] bg-[var(--sage-soft)] border border-[var(--line)] rounded-full px-4 py-1.5"
+        >
+          <svg class="w-3.5 h-3.5"><use href="#leaf-icon"></use></svg>
+          دفترچهٔ مراقبت پوست و مو
+        </span>
+        <h1
+          class="font-display mt-5 text-[28px] leading-[1.35] sm:text-4xl md:text-5xl font-bold text-[var(--ink)]"
+        >
+          مجلهٔ زیتون؛ یادداشت‌هایی برای پوست، مو و آینه
+        </h1>
+        <p
+          class="mt-4 text-sm sm:text-base text-[var(--ink-soft)] max-w-xl mx-auto leading-7"
+        >
+          راهنمای انتخاب محصول، ترفندهای مراقبتی و تجربه‌های واقعی؛ نوشته‌شده توسط
+          متخصصان سالن.
+        </p>
+      </header>
+
+      <!-- Filtering -->
+      <div class="mx-3 sm:mx-4 md:mx-6 mb-10 max-w-6xl md:mx-auto">
+        <div
+          class="bg-white/70 backdrop-blur border border-[var(--line)] rounded-2xl shadow-[0_18px_40px_rgba(71,87,47,0.10)] p-3 sm:p-5 flex flex-col gap-4"
+        >
+          <div class="flex flex-col md:flex-row md:items-center gap-4">
+            <label class="relative flex-1">
+              <span class="sr-only">جست‌وجو در مقالات</span>
+              <svg
+                class="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-4 text-[var(--ink-soft)]"
+                aria-hidden="true"
+              >
+                <use href="#search-icon"></use>
+              </svg>
+              <input
+                id="ac-search-input"
+                type="text"
+                placeholder="جست‌وجو بین مقالات..."
+                class="w-full py-3 pr-11 pl-10 text-sm sm:text-base bg-[var(--cream)] border border-[var(--line)] rounded-xl text-[var(--ink)] placeholder:text-[var(--ink-soft)] transition-colors focus:outline-none focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/10"
+                autocomplete="off"
+              />
+              <button
+                id="ac-search-clear"
+                type="button"
+                class="hidden absolute top-1/2 -translate-y-1/2 left-3 text-[var(--ink-soft)] hover:text-[var(--olive)]"
+                aria-label="پاک کردن جست‌وجو"
+              >
+                <svg class="w-4 h-4"><use href="#close-icon"></use></svg>
+              </button>
+            </label>
+            <span class="text-[var(--ink-soft)] text-xs sm:text-sm whitespace-nowrap">
+              <span id="ac-result-count"></span>
+            </span>
+          </div>
+
+          <div
+            id="ac-filter-tags"
+            class="flex items-center gap-2 overflow-x-auto pb-1"
+            role="group"
+            aria-label="فیلتر بر اساس دسته‌بندی"
+          >
+            <button
+              type="button"
+              class="ac-tag px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap rounded-full bg-[var(--cream)] border border-[var(--line)] text-[var(--olive)] hover:bg-[var(--sage-soft)] transition-all"
+              data-filter="all"
+              aria-pressed="true"
+            >
+              همه
+            </button>
+            <button
+              type="button"
+              class="ac-tag px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap rounded-full bg-[var(--cream)] border border-[var(--line)] text-[var(--olive)] hover:bg-[var(--sage-soft)] transition-all"
+              data-filter="پوست"
+              aria-pressed="false"
+            >
+              پوست
+            </button>
+            <button
+              type="button"
+              class="ac-tag px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap rounded-full bg-[var(--cream)] border border-[var(--line)] text-[var(--olive)] hover:bg-[var(--sage-soft)] transition-all"
+              data-filter="مو"
+              aria-pressed="false"
+            >
+              مو
+            </button>
+            <button
+              type="button"
+              class="ac-tag px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap rounded-full bg-[var(--cream)] border border-[var(--line)] text-[var(--olive)] hover:bg-[var(--sage-soft)] transition-all"
+              data-filter="لوازم آرایشی"
+              aria-pressed="false"
+            >
+              لوازم آرایشی
+            </button>
+            <button
+              type="button"
+              class="ac-tag px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap rounded-full bg-[var(--cream)] border border-[var(--line)] text-[var(--olive)] hover:bg-[var(--sage-soft)] transition-all"
+              data-filter="کراتین"
+              aria-pressed="false"
+            >
+              کراتین
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: جدیدترین مقالات -->
+      <div class="max-w-6xl md:mx-auto mx-3 sm:mx-6 mb-8">
+        <div class="flex items-center gap-3 mb-6">
+          <svg class="w-5 h-5 text-[var(--gold)]"><use href="#sparkle-icon"></use></svg>
+          <h2 class="font-display font-bold text-lg sm:text-2xl text-[var(--ink)]">
+            جدیدترین مقالات
+          </h2>
+          <span class="h-px flex-1 bg-[var(--line)]"></span>
+          <span
+            class="text-[10px] sm:text-xs text-[var(--ink-soft)] bg-[var(--cream-deep)] px-3 py-1 rounded-full border border-[var(--line)]"
+          >
+            بروزرسانی: امروز
+          </span>
+        </div>
+
+        <div id="ac-latest-grid" class="latest-grid">
+          <!-- Latest Article 1 -->
+          <article
+            class="ac-card group relative bg-white text-right rounded-2xl overflow-hidden stagger-child"
+            data-id="5"
+            data-category="پوست"
+            data-title="روتین مراقبت از پوست در فصل تابستان"
+          >
+            <div class="relative w-full aspect-[16/10]">
+              <img
+                class="card-media absolute inset-0 object-cover w-full h-full"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3hbCaAmI_g6jo6KZSEsmeQq8oOyxWVWr8p2gnT1gmYwOXEW7U1oaBSxQ&s=10"
+                alt="مراقبت پوست تابستان"
+                loading="lazy"
+              />
+              <div class="card-overlay absolute inset-0"></div>
+              <div
+                class="absolute top-3 right-3 flex items-center gap-2 text-[10px] sm:text-xs"
+              >
+                <span
+                  class="font-semibold px-3 py-1 rounded-full bg-[var(--olive)] text-white shadow-sm"
+                  >پوست</span
+                >
+                <span
+                  class="badge-new font-semibold px-2.5 py-1 rounded-full bg-[var(--gold)] text-white shadow-sm text-[9px] tracking-wide"
+                >
+                  ✦ جدید
+                </span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div
+                class="flex items-center gap-3 mb-3 text-[10px] sm:text-xs text-[var(--ink-soft)]"
+              >
+                <span class="flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5 text-[var(--gold)]"><use href="#calendar-icon"></use></svg>
+                  ۱۴۰۵/۰۳/۱۵
+                </span>
+                <span class="w-1 h-1 rounded-full bg-[var(--line)]"></span>
+                <span class="flex items-center gap-1.5">
+                  <span
+                    class="w-4 h-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] text-[9px] font-bold flex items-center justify-center"
+                    >ز</span
+                  >
+                  زهرا کریمی
+                </span>
+              </div>
+              <a
+                href="../Article/article.html"
+                class="article-title block mb-2 font-display font-bold text-[var(--ink)] text-[13px] sm:text-lg leading-6 hover:text-[var(--olive)] transition-colors"
+              >
+                روتین مراقبت از پوست در فصل تابستان
+              </a>
+              <p
+                class="text-[var(--ink-soft)] text-[10px] sm:text-sm leading-5 sm:leading-6 line-clamp-2 mb-4"
+              >
+                با افزایش دما و رطوبت، پوست نیاز به مراقبت ویژه‌ای دارد. در این
+                مقاله بهترین محصولات و ترتیب استفاده را بررسی می‌کنیم.
+              </p>
+              <a
+                href="../Article/article.html"
+                class="article-link inline-flex items-center gap-2 text-[10px] sm:text-sm font-medium py-1.5 px-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] border border-transparent transition-colors"
+              >
+                <span>مطالعه مقاله</span>
+                <svg class="w-3 h-3 link-arrow"><use href="#left-arrow"></use></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Latest Article 2 -->
+          <article
+            class="ac-card group relative bg-white text-right rounded-2xl overflow-hidden stagger-child"
+            data-id="6"
+            data-category="مو"
+            data-title="روش‌های طبیعی برای افزایش رشد مو"
+          >
+            <div class="relative w-full aspect-[16/10]">
+              <img
+                class="card-media absolute inset-0 object-cover w-full h-full"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3hbCaAmI_g6jo6KZSEsmeQq8oOyxWVWr8p2gnT1gmYwOXEW7U1oaBSxQ&s=10"
+                alt="رشد مو"
+                loading="lazy"
+              />
+              <div class="card-overlay absolute inset-0"></div>
+              <div
+                class="absolute top-3 right-3 flex items-center gap-2 text-[10px] sm:text-xs"
+              >
+                <span
+                  class="font-semibold px-3 py-1 rounded-full bg-[var(--gold)] text-white shadow-sm"
+                  >مو</span
+                >
+                <span
+                  class="badge-new font-semibold px-2.5 py-1 rounded-full bg-[var(--gold)] text-white shadow-sm text-[9px] tracking-wide"
+                >
+                  ✦ جدید
+                </span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div
+                class="flex items-center gap-3 mb-3 text-[10px] sm:text-xs text-[var(--ink-soft)]"
+              >
+                <span class="flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5 text-[var(--gold)]"><use href="#calendar-icon"></use></svg>
+                  ۱۴۰۵/۰۳/۱۴
+                </span>
+                <span class="w-1 h-1 rounded-full bg-[var(--line)]"></span>
+                <span class="flex items-center gap-1.5">
+                  <span
+                    class="w-4 h-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] text-[9px] font-bold flex items-center justify-center"
+                    >س</span
+                  >
+                  سارا احمدی
+                </span>
+              </div>
+              <a
+                href="../Article/article.html"
+                class="article-title block mb-2 font-display font-bold text-[var(--ink)] text-[13px] sm:text-lg leading-6 hover:text-[var(--olive)] transition-colors"
+              >
+                روش‌های طبیعی برای افزایش رشد مو
+              </a>
+              <p
+                class="text-[var(--ink-soft)] text-[10px] sm:text-sm leading-5 sm:leading-6 line-clamp-2 mb-4"
+              >
+                از روغن‌های گیاهی تا ماساژ پوست سر؛ ۷ روش اثبات‌شده برای داشتن
+                موهایی پرپشت و سالم.
+              </p>
+              <a
+                href="../Article/article.html"
+                class="article-link inline-flex items-center gap-2 text-[10px] sm:text-sm font-medium py-1.5 px-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] border border-transparent transition-colors"
+              >
+                <span>مطالعه مقاله</span>
+                <svg class="w-3 h-3 link-arrow"><use href="#left-arrow"></use></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Latest Article 3 -->
+          <article
+            class="ac-card group relative bg-white text-right rounded-2xl overflow-hidden stagger-child"
+            data-id="7"
+            data-category="لوازم آرایشی"
+            data-title="رازهای آرایش طبیعی و روزمره"
+          >
+            <div class="relative w-full aspect-[16/10]">
+              <img
+                class="card-media absolute inset-0 object-cover w-full h-full"
+                src="https://delbarbash.com/mag/wp-content/uploads/2022/07/%D9%BE%DA%A9-%D9%84%D9%88%D8%A7%D8%B2%D9%85-%D8%A2%D8%B1%D8%A7%DB%8C%D8%B4%DB%8C.jpg"
+                alt="آرایش طبیعی"
+                loading="lazy"
+              />
+              <div class="card-overlay absolute inset-0"></div>
+              <div
+                class="absolute top-3 right-3 flex items-center gap-2 text-[10px] sm:text-xs"
+              >
+                <span
+                  class="font-semibold px-3 py-1 rounded-full bg-[#8a6b3f] text-white shadow-sm"
+                  >لوازم آرایشی</span
+                >
+                <span
+                  class="badge-new font-semibold px-2.5 py-1 rounded-full bg-[var(--gold)] text-white shadow-sm text-[9px] tracking-wide"
+                >
+                  ✦ جدید
+                </span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div
+                class="flex items-center gap-3 mb-3 text-[10px] sm:text-xs text-[var(--ink-soft)]"
+              >
+                <span class="flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5 text-[var(--gold)]"><use href="#calendar-icon"></use></svg>
+                  ۱۴۰۵/۰۳/۱۳
+                </span>
+                <span class="w-1 h-1 rounded-full bg-[var(--line)]"></span>
+                <span class="flex items-center gap-1.5">
+                  <span
+                    class="w-4 h-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] text-[9px] font-bold flex items-center justify-center"
+                    >ن</span
+                  >
+                  نگار رستمی
+                </span>
+              </div>
+              <a
+                href="../Article/article.html"
+                class="article-title block mb-2 font-display font-bold text-[var(--ink)] text-[13px] sm:text-lg leading-6 hover:text-[var(--olive)] transition-colors"
+              >
+                رازهای آرایش طبیعی و روزمره
+              </a>
+              <p
+                class="text-[var(--ink-soft)] text-[10px] sm:text-sm leading-5 sm:leading-6 line-clamp-2 mb-4"
+              >
+                با چند ترفند ساده، ظاهری طبیعی و درخشان داشته باشید بدون اینکه
+                زمان زیادی صرف کنید.
+              </p>
+              <a
+                href="../Article/article.html"
+                class="article-link inline-flex items-center gap-2 text-[10px] sm:text-sm font-medium py-1.5 px-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] border border-transparent transition-colors"
+              >
+                <span>مطالعه مقاله</span>
+                <svg class="w-3 h-3 link-arrow"><use href="#left-arrow"></use></svg>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Section Divider: پربازدیدترین -->
+      <div class="flex items-center gap-3 mb-6 max-w-6xl md:mx-auto mx-3 sm:mx-6">
+        <svg class="w-4 h-4 text-[var(--gold)]"><use href="#leaf-icon"></use></svg>
+        <h2 class="font-display font-bold text-lg sm:text-2xl text-[var(--ink)]">
+          مقالات پربازدید
+        </h2>
+        <span class="h-px flex-1 bg-[var(--line)]"></span>
+      </div>
+
+      <!-- Main Grid -->
+      <div
+        id="ac-grid-container"
+        class="grid-container max-w-6xl md:mx-auto mx-3 sm:mx-6 mb-4"
+      >
+        <!-- Card 1 -->
+        <article
+          class="ac-card group relative bg-white text-right rounded-2xl overflow-hidden"
+          data-id="1"
+          data-category="پوست"
+          data-title="تفاوت کرم پودرها و انتخاب بهترین نوع برای پوست شما"
+        >
+          <div class="relative w-full aspect-video">
+            <img
+              class="card-media absolute inset-0 object-cover w-full h-full"
+              src="https://delbarbash.com/mag/wp-content/uploads/2022/07/%D9%BE%DA%A9-%D9%84%D9%88%D8%A7%D8%B2%D9%85-%D8%A2%D8%B1%D8%A7%DB%8C%D8%B4%DB%8C.jpg"
+              alt="کرم پودر"
+              loading="lazy"
+            />
+            <div class="card-overlay absolute inset-0"></div>
+            <span
+              class="absolute top-3 right-3 text-[10px] sm:text-xs font-semibold px-3 py-1 rounded-full bg-[var(--olive)] text-white shadow-sm"
+              >پوست</span
+            >
+          </div>
+          <div class="card-content">
+            <div
+              class="flex items-center gap-3 mb-3 text-[10px] sm:text-xs text-[var(--ink-soft)]"
+            >
+              <span class="flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-[var(--gold)]"><use href="#calendar-icon"></use></svg>
+                ۱۴۰۵/۰۳/۱۳
+              </span>
+              <span class="w-1 h-1 rounded-full bg-[var(--line)]"></span>
+              <span class="flex items-center gap-1.5">
+                <span
+                  class="w-4 h-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] text-[9px] font-bold flex items-center justify-center"
+                  >م</span
+                >
+                مرجان سلطانی
+              </span>
+            </div>
+            <a
+              href="../Article/article.html"
+              class="article-title block mb-2 font-display font-bold text-[var(--ink)] text-[12px] sm:text-lg leading-6 hover:text-[var(--olive)] transition-colors"
+            >
+              تفاوت کرم پودرها و انتخاب بهترین نوع برای پوست شما
+            </a>
+            <p
+              class="text-[var(--ink-soft)] text-[10px] sm:text-sm leading-5 sm:leading-6 line-clamp-2 sm:line-clamp-3 mb-4"
+            >
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+              استفاده از طراحان گرافیک است.
+            </p>
+            <a
+              href="../Article/article.html"
+              class="article-link inline-flex items-center gap-2 text-[10px] sm:text-sm font-medium py-1.5 px-3 sm:py-2 sm:px-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] border border-transparent transition-colors"
+            >
+              <span>مطالعه مقاله</span>
+              <svg class="w-3 h-3 link-arrow"><use href="#left-arrow"></use></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article
+          class="ac-card group relative bg-white text-right rounded-2xl overflow-hidden"
+          data-id="2"
+          data-category="مو"
+          data-title="راهنمای کامل کراتین‌درمانی موی خشک و آسیب‌دیده"
+        >
+          <div class="relative w-full aspect-video">
+            <img
+              class="card-media absolute inset-0 object-cover w-full h-full"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6QeVhHWTuoJ2SC9ZaPXR8oP4WWZccp9lCVrvd0c9NKU6clCby1zcGW8JP&s=10"
+              alt="مراقبت مو"
+              loading="lazy"
+            />
+            <div class="card-overlay absolute inset-0"></div>
+            <span
+              class="absolute top-3 right-3 text-[10px] sm:text-xs font-semibold px-3 py-1 rounded-full bg-[var(--gold)] text-white shadow-sm"
+              >مو</span
+            >
+          </div>
+          <div class="card-content">
+            <div
+              class="flex items-center gap-3 mb-3 text-[10px] sm:text-xs text-[var(--ink-soft)]"
+            >
+              <span class="flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-[var(--gold)]"><use href="#calendar-icon"></use></svg>
+                ۱۴۰۵/۰۳/۱۰
+              </span>
+              <span class="w-1 h-1 rounded-full bg-[var(--line)]"></span>
+              <span class="flex items-center gap-1.5">
+                <span
+                  class="w-4 h-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] text-[9px] font-bold flex items-center justify-center"
+                  >س</span
+                >
+                سارا احمدی
+              </span>
+            </div>
+            <a
+              href="../Article/article.html"
+              class="article-title block mb-2 font-display font-bold text-[var(--ink)] text-[12px] sm:text-lg leading-6 hover:text-[var(--olive)] transition-colors"
+            >
+              راهنمای کامل کراتین‌درمانی موی خشک و آسیب‌دیده
+            </a>
+            <p
+              class="text-[var(--ink-soft)] text-[10px] sm:text-sm leading-5 sm:leading-6 line-clamp-2 sm:line-clamp-3 mb-4"
+            >
+              پیش از هر کراتین‌درمانی، شناخت نوع مو و میزان آسیب اهمیت زیادی
+              دارد. در این مقاله قدم‌به‌قدم فرایند را بررسی می‌کنیم.
+            </p>
+            <a
+              href="../Article/article.html"
+              class="article-link inline-flex items-center gap-2 text-[10px] sm:text-sm font-medium py-1.5 px-3 sm:py-2 sm:px-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] border border-transparent transition-colors"
+            >
+              <span>مطالعه مقاله</span>
+              <svg class="w-3 h-3 link-arrow"><use href="#left-arrow"></use></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article
+          class="ac-card group relative bg-white text-right rounded-2xl overflow-hidden"
+          data-id="3"
+          data-category="لوازم آرایشی"
+          data-title="پنج محصول آرایشی که هر کیف لوازم آرایشی باید داشته باشد"
+        >
+          <div class="relative w-full aspect-video">
+            <img
+              class="card-media absolute inset-0 object-cover w-full h-full"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6QeVhHWTuoJ2SC9ZaPXR8oP4WWZccp9lCVrvd0c9NKU6clCby1zcGW8JP&s=10"
+              alt="لوازم آرایشی"
+              loading="lazy"
+            />
+            <div class="card-overlay absolute inset-0"></div>
+            <span
+              class="absolute top-3 right-3 text-[10px] sm:text-xs font-semibold px-3 py-1 rounded-full bg-[#8a6b3f] text-white shadow-sm"
+              >لوازم آرایشی</span
+            >
+          </div>
+          <div class="card-content">
+            <div
+              class="flex items-center gap-3 mb-3 text-[10px] sm:text-xs text-[var(--ink-soft)]"
+            >
+              <span class="flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-[var(--gold)]"><use href="#calendar-icon"></use></svg>
+                ۱۴۰۵/۰۳/۰۸
+              </span>
+              <span class="w-1 h-1 rounded-full bg-[var(--line)]"></span>
+              <span class="flex items-center gap-1.5">
+                <span
+                  class="w-4 h-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] text-[9px] font-bold flex items-center justify-center"
+                  >ن</span
+                >
+                نگار رستمی
+              </span>
+            </div>
+            <a
+              href="../Article/article.html"
+              class="article-title block mb-2 font-display font-bold text-[var(--ink)] text-[12px] sm:text-lg leading-6 hover:text-[var(--olive)] transition-colors"
+            >
+              پنج محصول آرایشی که هر کیف لوازم آرایشی باید داشته باشد
+            </a>
+            <p
+              class="text-[var(--ink-soft)] text-[10px] sm:text-sm leading-5 sm:leading-6 line-clamp-2 sm:line-clamp-3 mb-4"
+            >
+              از کانسیلر گرفته تا رژلب ماندگار؛ این‌ها اقلامی‌اند که در هر
+              شرایطی به کارتان می‌آیند و ارزش سرمایه‌گذاری دارند.
+            </p>
+            <a
+              href="../Article/article.html"
+              class="article-link inline-flex items-center gap-2 text-[10px] sm:text-sm font-medium py-1.5 px-3 sm:py-2 sm:px-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] border border-transparent transition-colors"
+            >
+              <span>مطالعه مقاله</span>
+              <svg class="w-3 h-3 link-arrow"><use href="#left-arrow"></use></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article
+          class="ac-card group relative bg-white text-right rounded-2xl overflow-hidden"
+          data-id="4"
+          data-category="کراتین"
+          data-title="کراتین یا بوتاکس مو؛ کدام برای موی شما مناسب‌تر است؟"
+        >
+          <div class="relative w-full aspect-video">
+            <img
+              class="card-media absolute inset-0 object-cover w-full h-full"
+              src="https://banehgallery.com/wp-content/uploads/2023/07/%D8%A8%D9%87%D8%AA%D8%B1%DB%8C%D9%86-%D8%A8%D8%B1%D9%86%D8%AF-%D9%87%D8%A7%DB%8C-%D9%85%D8%AD%D8%B5%D9%88%D9%84%D8%A7%D8%AA-%D9%85%D8%B1%D8%A7%D9%82%D8%A8%D8%AA-%D8%A7%D8%B2-%D9%BE%D9%88%D8%B3%D8%AA.jpg"
+              alt="کراتین مو"
+              loading="lazy"
+            />
+            <div class="card-overlay absolute inset-0"></div>
+            <span
+              class="absolute top-3 right-3 text-[10px] sm:text-xs font-semibold px-3 py-1 rounded-full bg-[var(--olive-deep)] text-white shadow-sm"
+              >کراتین</span
+            >
+          </div>
+          <div class="card-content">
+            <div
+              class="flex items-center gap-3 mb-3 text-[10px] sm:text-xs text-[var(--ink-soft)]"
+            >
+              <span class="flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-[var(--gold)]"><use href="#calendar-icon"></use></svg>
+                ۱۴۰۵/۰۳/۰۵
+              </span>
+              <span class="w-1 h-1 rounded-full bg-[var(--line)]"></span>
+              <span class="flex items-center gap-1.5">
+                <span
+                  class="w-4 h-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] text-[9px] font-bold flex items-center justify-center"
+                  >م</span
+                >
+                مرجان سلطانی
+              </span>
+            </div>
+            <a
+              href="../Article/article.html"
+              class="article-title block mb-2 font-display font-bold text-[var(--ink)] text-[12px] sm:text-lg leading-6 hover:text-[var(--olive)] transition-colors"
+            >
+              کراتین یا بوتاکس مو؛ کدام برای موی شما مناسب‌تر است؟
+            </a>
+            <p
+              class="text-[var(--ink-soft)] text-[10px] sm:text-sm leading-5 sm:leading-6 line-clamp-2 sm:line-clamp-3 mb-4"
+            >
+              این دو روش هدف مشابهی دارند اما نتیجه و ماندگاری‌شان متفاوت است.
+              مقایسه‌ای کاربردی برای انتخاب درست.
+            </p>
+            <a
+              href="../Article/article.html"
+              class="article-link inline-flex items-center gap-2 text-[10px] sm:text-sm font-medium py-1.5 px-3 sm:py-2 sm:px-4 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] border border-transparent transition-colors"
+            >
+              <span>مطالعه مقاله</span>
+              <svg class="w-3 h-3 link-arrow"><use href="#left-arrow"></use></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Empty State -->
+      <div
+        id="ac-empty-state"
+        class="hidden mx-3 sm:mx-10 max-w-6xl md:mx-auto py-10 px-4 sm:py-16 sm:px-6 flex-col items-center gap-3 bg-white/60 border border-dashed border-[var(--line)] rounded-2xl text-[var(--ink-soft)] mb-14"
+      >
+        <svg class="w-6 h-6 sm:w-9 sm:h-9 text-[var(--olive)]">
+          <use href="#search-icon"></use>
+        </svg>
+        <p class="text-xs text-center sm:text-base font-semibold text-[var(--ink)]">
+          مقاله‌ای با این مشخصات پیدا نشد
+        </p>
+        <p class="text-[10px] text-center sm:text-sm">
+          عبارت جست‌وجو یا دسته‌بندی را تغییر دهید
+        </p>
+        <button
+          id="ac-reset-btn"
+          type="button"
+          class="text-[10px] sm:text-sm font-medium py-1.5 px-3 sm:py-2 sm:px-5 sm:mt-2 rounded-full bg-[var(--sage-soft)] text-[var(--olive)] border border-transparent transition-colors hover:bg-[var(--olive)] hover:text-white"
+        >
+          پاک کردن فیلترها
+        </button>
+      </div>
+
+      <div class="h-24"></div>
+    </main>
+
+    <script>
+      (function () {
+        const searchInput = document.getElementById("ac-search-input");
+        const clearBtn = document.getElementById("ac-search-clear");
+        const tagButtons = Array.from(document.querySelectorAll(".ac-tag"));
+        const cards = Array.from(document.querySelectorAll(".ac-card"));
+        const resultCount = document.getElementById("ac-result-count");
+        const emptyState = document.getElementById("ac-empty-state");
+        const resetBtn = document.getElementById("ac-reset-btn");
+
+        let activeFilter = "all";
+
+        function applyFilters() {
+          const query = searchInput.value.trim();
+          clearBtn.classList.toggle("hidden", query.length === 0);
+
+          let visible = 0;
+          cards.forEach((card) => {
+            const matchesCategory =
+              activeFilter === "all" || card.dataset.category === activeFilter;
+            const matchesQuery =
+              !query || card.dataset.title.includes(query);
+            const show = matchesCategory && matchesQuery;
+            card.style.display = show ? "" : "none";
+            if (show) visible++;
+          });
+
+          resultCount.textContent = visible + " مقاله";
+          const grid = document.getElementById("ac-grid-container");
+          if (visible === 0) {
+            emptyState.classList.remove("hidden");
+            emptyState.classList.add("flex");
+            grid.classList.add("hidden");
+          } else {
+            emptyState.classList.add("hidden");
+            emptyState.classList.remove("flex");
+            grid.classList.remove("hidden");
+          }
+        }
+
+        searchInput.addEventListener("input", applyFilters);
+        clearBtn.addEventListener("click", () => {
+          searchInput.value = "";
+          applyFilters();
+          searchInput.focus();
+        });
+
+        tagButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            tagButtons.forEach((b) => b.setAttribute("aria-pressed", "false"));
+            btn.setAttribute("aria-pressed", "true");
+            activeFilter = btn.dataset.filter;
+            applyFilters();
+          });
+        });
+
+        resetBtn.addEventListener("click", () => {
+          searchInput.value = "";
+          tagButtons.forEach((b) =>
+            b.setAttribute("aria-pressed", b.dataset.filter === "all")
+          );
+          activeFilter = "all";
+          applyFilters();
+        });
+
+        applyFilters();
+      })();
+    </script>
+  </body>
+</html>
